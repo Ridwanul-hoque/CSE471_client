@@ -8,6 +8,8 @@ import Adoption from "../Pages/adoption/adoption";
 import Accessories from "../Pages/Accessories/Accessories";
 import Medical from "../Pages/Medical/Medical";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import Login from "../Pages/Login/Login";
+import Registration from "../Pages/Registration/Registration";
 
 
 
@@ -35,10 +37,33 @@ export const router = createBrowserRouter([
                 element: <Medical></Medical>
             },
             {
-                path: '/dashboard',
-                element: <Dashboard></Dashboard>
-                
-            }
+                path: '/medical',
+                element: <Medical></Medical>
+            },
+            {
+                path: '/medical',
+                element: <Medical></Medical>
+            },
+            {
+                path: '/login',
+                element: <Login></Login>
+            },
+            {
+                path: '/register',
+                element: <Registration></Registration>
+            },
+            
         ]
     },
+    {
+        path: '/dashboard',
+        element: <Dashboard></Dashboard>,
+        children: [
+            {
+                path: 'profile',
+                element: "nothing"
+            }
+        ]
+        
+    }
 ]);
