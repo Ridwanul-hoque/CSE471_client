@@ -14,7 +14,7 @@ const Navbar = () => {
 
     const navOptions = <>
         <li><Link to={'/'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Home</Link></li>
-        <li><Link to={'/Adoption'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Adoption</Link></li>
+        <li><Link to={'/adoption'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Adoption</Link></li>
         <li><Link to={'/accessories'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Accessories</Link></li>
         <li><Link to={'/medical'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Medical Assistance</Link></li>
         <li><Link to={'/dashboard'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Dashboard</Link></li>
@@ -36,8 +36,10 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="flex items-center gap-2">
+                    <Link to="/" className="flex items-center gap-2">
                     <img src={logo} alt="Logo" className="h-18 w-auto object-contain" />
                     <span className="text-2xl font-bold text-[#F7B385] tracking-wide">Pawkie</span>
+                    </Link>
                 </div>
             </div>
             <div className="navbar-center hidden lg:flex">
