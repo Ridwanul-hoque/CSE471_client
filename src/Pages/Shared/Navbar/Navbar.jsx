@@ -2,9 +2,12 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import logo from "../../../assets/logo.png"
+import useAdmin from '../../../Hooks/useAdmin';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext)
+    const [isAdmin] = useAdmin()
+    // const isAdmin = true
 
     const handlelogout = () => {
         logout()
@@ -15,13 +18,21 @@ const Navbar = () => {
     const navOptions = <>
         <li><Link to={'/'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Home</Link></li>
         <li><Link to={'/Adoption'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Adoption</Link></li>
+        <li><Link to={'/missingfeed'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Missing Pets</Link></li>
         <li><Link to={'/accessories'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Accessories</Link></li>
         <li><Link to={'/medical'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Medical Assistance</Link></li>
-        <li><Link to={'/dashboard'} className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Dashboard</Link></li>
+        
+        {
+            user && isAdmin && <>
+                <li><Link to='/dashboard/adminDashboard' className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Dashboard</Link> </li> </>
+        }
+        {
+            user && !isAdmin && <><li><Link to='/dashboard/user' className="text-[#F7B385] font-semibold hover:text-white transition-colors duration-200">Dashboard</Link></li></>
+        }
     </>
 
     return (
-        <div className="navbar max-w-screen-xl mx-auto ">
+        <div className="navbar max-w-screen-xl mx-auto z-50 relative ">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

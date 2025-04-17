@@ -2,18 +2,20 @@
 // import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 
-import { createUserWithEmailAndPassword, GoogleAuthProvider, getAuth,  onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 
 
 
 export const AuthContext = createContext(null)
 const auth = getAuth(app)
-const AuthProviders = ({children}) => {
+const AuthProviders = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const googleProvider = new GoogleAuthProvider()
+    const axiosPublic = useAxiosPublic()
 
     const createUser = (email, password) => {
         setLoading(true)
@@ -24,7 +26,7 @@ const AuthProviders = ({children}) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
-    const googleSignIn = () =>{
+    const googleSignIn = () => {
         setLoading(true)
         return signInWithPopup(auth, googleProvider)
 
@@ -34,21 +36,35 @@ const AuthProviders = ({children}) => {
         return signOut(auth)
     }
     const updateUserProfile = (name, photo) => {
-        return updateProfile(auth.currentUser,{
+        return updateProfile(auth.currentUser, {
             displayName: name, photoURL: photo
         })
     }
-    useEffect( () =>{
-        const unsubscribe = onAuthStateChanged(auth, currentUser =>{
-            setUser(currentUser);
-            console.log('current user', currentUser);
-            setLoading(false);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser)
+            if (currentUser) {
+                const userInfo = { email: currentUser.email }
+                axiosPublic.post('/jwt', userInfo)
+                    .then(res => {
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token)
+                            setLoading(false)
+                        }
+                    })
+
+            }
+            else {
+                localStorage.removeItem('access-token')
+                setLoading(false)
+
+            }
 
         });
         return () => {
             return unsubscribe()
         }
-    })
+    }, [axiosPublic])
     const authInfo = {
         user,
         loading,
