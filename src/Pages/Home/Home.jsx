@@ -1,12 +1,15 @@
 import React from 'react';
 import Banner from './Banner/Banner';
-import Adoption from './Adoption/Adoption';
+import Adoption from '../adoption/adoption';
+import RecentAdoptions from './RecentAdoption/RecentAdoption';
+
 
 const Home = () => {
     return (
         <div className='bg-white'>
             <Banner></Banner>
-            <Adoption></Adoption>
+            <RecentAdoptions></RecentAdoptions>
+            
         </div>
     );
 };
