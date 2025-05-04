@@ -12,6 +12,33 @@ import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
 
 
+<<<<<<< Updated upstream
+=======
+import PrivateRoutes from "./PrivateRoutes";
+import UserDashboard from "../Pages/Dashboard/UserDashboard/UserDashboard.jsx";
+import AdminRoutes from "./AdminRoutes.jsx";
+import ManageUser from "../Pages/Dashboard/ManageUser/ManageUser.jsx";
+import AdminDashboard from "../Pages/Dashboard/AdminDashboard/AdminDashboard.jsx";
+import PostAdoption from "../Pages/Dashboard/PostAddoption/PostAdoption.jsx";
+import MissingFeed from "../Pages/Home/MissingFeed/MissingFeed.jsx";
+import { VetProfiles } from "../Pages/Medical/VetProfiles";
+import BookAppointment from "../Pages/Medical/BookAppointment";
+import VideoCall from "../Pages/Medical/VideoCall";
+import VetBot from "../Pages/Medical/VetBot";
+import Medical from "../Pages/Medical/Landing";
+import ProductAdmin from "../Pages/Dashboard/AdminProduct/AdminProduct.jsx";
+import Shop from "../Pages/Shop/Shop.jsx";
+import Rescue from "../Pages/Rescue/Rescue.jsx";
+import UserRescuePost from "../Pages/Dashboard/UserRescuePost/UserRescuePost.jsx";
+import AdoptForm from "../Pages/AdoptForm/AdoptForm.jsx";
+import AdoptionApproval from "../Pages/Dashboard/AdoptionApproval/AdoptionApproval.jsx";
+import AdoptedPets from "../Pages/Dashboard/AdoptedPets/AdoptedPets.jsx";
+import MissingPets from "../Pages/Dashboard/MissingPets/MissingPets.jsx";
+import DoctorProfile from '../Pages/Medical/DoctorProfile.jsx';
+import DoctorVideoCall from '../Pages/Medical/DoctorVideoCall.jsx';
+import UserPrescriptions from "../Pages/Dashboard/Prescriptions.jsx";
+
+>>>>>>> Stashed changes
 
 
 
@@ -52,7 +79,20 @@ export const router = createBrowserRouter([
                 path: '/register',
                 element: <Registration></Registration>
             },
+<<<<<<< Updated upstream
             
+=======
+            {
+                path: '/doctorsprofile',
+                element: <DoctorProfile></DoctorProfile>
+            },
+
+            {
+                path: '/doctorvideocall',
+                element: <DoctorVideoCall></DoctorVideoCall>
+            },
+
+>>>>>>> Stashed changes
         ]
     },
     {
@@ -60,9 +100,67 @@ export const router = createBrowserRouter([
         element: <Dashboard></Dashboard>,
         children: [
             {
+<<<<<<< Updated upstream
                 path: 'profile',
                 element: "nothing"
             }
+=======
+                path: 'addPost',
+                element: <PostAdoption></PostAdoption>,
+            },
+            {
+                path: 'userRescue',
+                element: <PrivateRoutes><UserRescuePost></UserRescuePost></PrivateRoutes>,
+            },
+            {
+                path: 'favourite',
+                element: ''
+            },
+            {
+                path: 'adopted',
+                element: <PrivateRoutes><AdoptedPets></AdoptedPets></PrivateRoutes>,
+            },
+            {
+                path: 'addreview',
+                element: '',
+
+            },
+            {
+                path: 'missingPets',
+                element: <PrivateRoutes><MissingPets></MissingPets></PrivateRoutes>
+            },
+            {
+                path: 'user',
+                element: <PrivateRoutes><UserDashboard></UserDashboard></PrivateRoutes>,
+
+            },
+            {
+                path: 'prescriptions',
+                element: <UserPrescriptions/>
+            },
+
+
+            {
+                path: 'adminDashboard',
+                element: <AdminRoutes><AdminDashboard></AdminDashboard></AdminRoutes>
+            },
+            {
+                path: 'manageUsers',
+                element: <AdminRoutes><ManageUser></ManageUser></AdminRoutes>
+            },
+            {
+                path: 'manageProducts',
+                element: <AdminRoutes><ProductAdmin></ProductAdmin></AdminRoutes>
+            },
+            {
+                path: 'approval',
+                element: <AdminRoutes><AdoptionApproval></AdoptionApproval></AdminRoutes>
+            },
+            
+
+
+
+>>>>>>> Stashed changes
         ]
         
     }
