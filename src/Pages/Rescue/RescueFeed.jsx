@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Feed = ({ posts }) => {
+const RescueFeed = ({ posts }) => {
   const [commentText, setCommentText] = useState({});
   const [openComments, setOpenComments] = useState({}); // track which comment sections are open
 
@@ -16,8 +16,8 @@ const Feed = ({ posts }) => {
     if (!text) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/missing-posts/${postId}/comments`, {
-        userName: "Anonymous",
+      await axios.post(`http://localhost:5000/api/rescue-posts/${postId}/comments`, {
+        userName: "User Name",
         text: text,
       });
 
@@ -43,7 +43,7 @@ const Feed = ({ posts }) => {
           alt="Paw" 
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
         />
-        All Missing Posts
+        All Rescue Posts
         <img 
           src="src/assets/paw.png" 
           alt="Paw" 
@@ -69,7 +69,7 @@ const Feed = ({ posts }) => {
                   />
                   <div className="ml-4">
                     <h3 className="font-semibold text-lg text-[#840B36]">
-                      {post.userName || "Anonymous"}
+                      {post.userName || "User Name"}
                     </h3>
                     <p className="text-sm text-gray-500">
                       {new Date(post.createdAt).toLocaleString()}
@@ -79,7 +79,7 @@ const Feed = ({ posts }) => {
 
                 {/* Description */}
                 <p className="text-[#333] text-xl font-semibold  leading-relaxed mb-4">
-                  {post.description}
+                  {post.details}
                 </p>
 
                 {/* Toggle Comments Button */}
@@ -137,7 +137,7 @@ const Feed = ({ posts }) => {
 
                 {/* Footer */}
                 <div className="mt-4 text-sm text-[#840B36] bg-[#FEE3EC] p-3 rounded-md font-medium border border-pink-100">
-                  If you’ve seen this pet, please contact the owner immediately.
+                  Please rescue this innocent soul immediately.
                 </div>
               </div>
 
@@ -146,7 +146,7 @@ const Feed = ({ posts }) => {
               {post.image && (
                 <img
                   src={`data:${post.imageType};base64,${post.image}`}
-                  alt="Missing Pet"
+                  alt="Rescue Pet"
                   className="w-full h-80 object-cover rounded-r-2xl"
                 />
               )}
@@ -155,7 +155,7 @@ const Feed = ({ posts }) => {
           ))
         ) : (
           <div className="text-center text-gray-500 font-medium">
-            No missing pet posts found.
+            No pet posts found for rescuing.
           </div>
         )}
       </div>
@@ -163,4 +163,4 @@ const Feed = ({ posts }) => {
   );
 };
 
-export default Feed;
+export default RescueFeed;

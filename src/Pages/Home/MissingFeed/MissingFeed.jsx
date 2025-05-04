@@ -3,8 +3,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Feed from "./Feed"; // Import Feed component
 import SparkleEffect from "../../Shared/SparklelEffect/SparkleEffect";
+// import ChatBotButton from '../../Pages/ChatBot/ChatBotButton';
+// import ChatWindow from '../../Pages/ChatBot/ChatWindow';
 
 const MissingFeed = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  
+  const toggleChat = () => setIsChatOpen(!isChatOpen);
+
   const [petData, setPetData] = useState({ description: "", image: null });
   const [imagePreview, setImagePreview] = useState(null);
   const [posts, setPosts] = useState([]); // Store posts here
@@ -65,7 +71,7 @@ const MissingFeed = () => {
     <div>
     <div className="relative overflow-hidden">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#FFDDE1] via-[#FEE3EC] to-[#F6C7CF] py-30 px-6 lg:px-20 items-center justify-between text-center">
+      <div className="bg-gradient-to-r from-[#FFD6BE] via-[#FFE8DA] to-[#FFD6BE] py-30 px-6 lg:px-20 items-center justify-between text-center">
         <SparkleEffect count={30} />
         <h1 className="text-5xl font-bold text-[#840B36] mb-6">Help Find Missing Pets</h1>
         <p className="text-xl text-[#BA6C7D] mb-8">
@@ -74,17 +80,17 @@ const MissingFeed = () => {
 
         {/* Post Creator */}
         <div className="post-creator bg-white shadow-lg rounded-lg mx-auto max-w-xl ">
-          <div className="post-header px-6 py-4 border-b ">
-            <h3 className="text-[#840B36] font-semibold">Create Missing Pet Report</h3>
+          <div className="post-header px- py-4 ">
+            <h3 className="text-[#840B36] text-lg font-semibold">Create Missing Pet Report</h3>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="post-content px-6 py-3">
+            <div className="post-content px-6 py-3 ">
               <textarea
                 name="description"
                 placeholder="Share details about the missing pet..."
                 value={petData.description}
                 onChange={handleInputChange}
-                className="post-textarea w-full p-4 border border-[#840B36] rounded-md text-[#840B36]"
+                className="post-textarea w-full p-4 border border-gray-300 rounded-md text-[#840B36]"
                 rows="4"
                 required
               />
@@ -105,7 +111,7 @@ const MissingFeed = () => {
                 </div>
               )}
             </div>
-            <div className="post-footer px-6 py-4 border-t flex justify-between items-center">
+            <div className="post-footer px-6 py-4  flex justify-between items-center">
               <label htmlFor="imageInput" className="cursor-pointer flex items-center space-x-2 text-[#840B36] hover:text-[#BA6C7D]">
                 <i className="fas fa-camera"></i>
                 <span>Add Photo</span>
@@ -119,7 +125,7 @@ const MissingFeed = () => {
               </label>
               <button
                 type="submit"
-                className="bg-[#BA6C7D] text-white px-4 py-2 rounded hover:bg-[#840B36] transition"
+                className="cursor-pointer bg-[#BA6C7D] text-white px-4 py-2 rounded hover:bg-[#840B36] transition"
                 disabled={isSubmitting || !petData.description || !petData.image}
               >
                 {isSubmitting ? "Submitting..." : "Post"}
@@ -134,6 +140,10 @@ const MissingFeed = () => {
     <div className="mt-10">
       <Feed posts={posts} /> {/* Pass posts as a prop to Feed */}
     </div>
+
+    {/* Chatbot */}
+    {/* <ChatBotButton toggleChat={toggleChat} />
+    {isChatOpen && <ChatWindow closeChat={toggleChat} />} */}
     </div>
   );
 };

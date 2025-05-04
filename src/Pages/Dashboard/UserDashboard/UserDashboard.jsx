@@ -116,7 +116,7 @@ const UserDashboard = () => {
         <div className="min-h-screen bg-gray-100 py-8 px-4">
             <div className="max-w-4xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                    <div className="bg-[#49312C] text-white p-6">
+                    <div className="bg-[#5F040D] text-white p-6">
                         <div className="flex justify-between items-center">
                             <h1 className="text-2xl font-bold">My Dashboard</h1>
                             <button

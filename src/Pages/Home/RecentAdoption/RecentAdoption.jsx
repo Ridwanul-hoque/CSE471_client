@@ -1,4 +1,3 @@
-// src/components/RecentAdoptions.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -47,9 +46,9 @@ const RecentAdoptions = () => {
         {recentPets.map((pet) => (
           <div
             key={pet._id}
-            className="bg-gradient-to-r from-[#FFF0F4] via-[#FFDCE4] to-[#FFF0F4] rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col justify-between hover:shadow-xl"
+            className="bg-gradient-to-r from-[#FFD6BE] via-[#FFE8DA] to-[#FFD6BE] rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col justify-between hover:shadow-xl"
           >
-            {/* 🖼️ Dynamic Image Layout */}
+            {/* Dynamic Image Layout */}
             {pet.images?.length > 1 ? (
               <div className="flex h-60 w-full">
                 <img
