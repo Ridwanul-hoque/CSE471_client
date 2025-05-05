@@ -1,21 +1,6 @@
 import React from 'react';
-// import { FaBookAtlas, FaPeopleGroup, FaUtensils, FaList, FaHome, FaMoneyBill, FaUser } from 'react-icons/fa';
-import { NavLink, Outlet } from 'react-router-dom';
-import { VscPreview } from "react-icons/vsc";
-import useAdmin from '../../Hooks/useAdmin';
-import { FaAdjust, FaHome, FaUser } from 'react-icons/fa';
-import { IoIosContact } from "react-icons/io"
-import { MdOutlineViewInAr } from "react-icons/md";
-import { GrContactInfo } from "react-icons/gr";
-import { CiSquareQuestion } from "react-icons/ci";
-import { MdApproval } from "react-icons/md";
-
-
 
 const Dashboard = () => {
-    const [isAdmin] = useAdmin();
-    // const isAdmin = true
-
     return (
         <div className='flex'>
             {/* Sidebar */}
@@ -124,6 +109,11 @@ const Dashboard = () => {
                                 >
                                     <VscPreview className="text-xl" /> <span>Add Missing Post</span>
                                 </NavLink>
+                            </li>
+                            <li>
+                                    <NavLink to="/dashboard/prescriptions">
+                                        <FaFilePrescription /> My Prescriptions
+                                    </NavLink>
                             </li>
                         </>
                     )}
