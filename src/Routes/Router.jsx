@@ -1,16 +1,15 @@
 import {
     createBrowserRouter,
-
+    
 } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home";
 import Adoption from "../Pages/adoption/adoption";
-// import Accessories from "../Pages/Accessories/Accessories";
-// import Medical from "../Pages/Medical/Medical";
+import Accessories from "../Pages/Accessories/Accessories";
+import Medical from "../Pages/Medical/Medical";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
-
 
 import PrivateRoutes from "./PrivateRoutes";
 import UserDashboard from "../Pages/Dashboard/UserDashboard/UserDashboard.jsx";
@@ -32,6 +31,9 @@ import AdoptForm from "../Pages/AdoptForm/AdoptForm.jsx";
 import AdoptionApproval from "../Pages/Dashboard/AdoptionApproval/AdoptionApproval.jsx";
 import AdoptedPets from "../Pages/Dashboard/AdoptedPets/AdoptedPets.jsx";
 import MissingPets from "../Pages/Dashboard/MissingPets/MissingPets.jsx";
+import DoctorProfile from '../Pages/Medical/DoctorProfile.jsx';
+import DoctorVideoCall from '../Pages/Medical/DoctorVideoCall.jsx';
+import UserPrescriptions from "../Pages/Dashboard/Prescriptions.jsx";
 
 
 
@@ -48,50 +50,25 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/adoption',
-                element: <PrivateRoutes><Adoption></Adoption></PrivateRoutes>
+                element: <Adoption></Adoption>
             },
             {
-                path: '/rescue',
-                element: <PrivateRoutes><Rescue></Rescue></PrivateRoutes>
-            },
-            {
-                path: '/Shop',
-                element: <PrivateRoutes><Shop></Shop></PrivateRoutes>
+                path: '/accessories',
+                element: <Accessories></Accessories>
             },
             {
                 path: '/medical',
                 element: <Medical></Medical>
             },
             {
-                path: '/missingfeed',
-                element: <PrivateRoutes><MissingFeed></MissingFeed></PrivateRoutes>
+                path: '/medical',
+                element: <Medical></Medical>
             },
             {
                 path: '/medical',
                 element: <Medical></Medical>
             },
             {
-                path: '/adopt/:id',
-                element: <AdoptForm></AdoptForm>
-            },
-            {
-                path: '/vet-profiles',
-                element: <VetProfiles></VetProfiles>
-            },
-            {
-                path: '/book-appointment',
-                element: <BookAppointment></BookAppointment>
-            },
-            {
-                path: '/video-call',
-                element: <VideoCall></VideoCall>
-            },
-            {
-                path: '/vet-bot',
-                element: <VetBot></VetBot>
-            },
-            {
-
                 path: '/login',
                 element: <Login></Login>
             },
@@ -100,14 +77,31 @@ export const router = createBrowserRouter([
                 element: <Registration></Registration>
             },
 
+            
+
+            {
+                path: '/doctorsprofile',
+                element: <DoctorProfile></DoctorProfile>
+            },
+
+            {
+                path: '/doctorvideocall',
+                element: <DoctorVideoCall></DoctorVideoCall>
+            },
+
         ]
     },
     {
-        path: 'dashboard',
-        element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
+        path: '/dashboard',
+        element: <Dashboard></Dashboard>,
         children: [
-
             {
+
+                path: 'profile',
+                element: "nothing"
+            },
+            {
+
                 path: 'addPost',
                 element: <PostAdoption></PostAdoption>,
             },
@@ -137,6 +131,10 @@ export const router = createBrowserRouter([
                 element: <PrivateRoutes><UserDashboard></UserDashboard></PrivateRoutes>,
 
             },
+            {
+                path: 'prescriptions',
+                element: <UserPrescriptions/>
+            },
 
 
             {
@@ -159,6 +157,8 @@ export const router = createBrowserRouter([
 
 
 
+
         ]
+        
     }
 ]);
