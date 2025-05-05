@@ -11,9 +11,6 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
 
-
-<<<<<<< Updated upstream
-=======
 import PrivateRoutes from "./PrivateRoutes";
 import UserDashboard from "../Pages/Dashboard/UserDashboard/UserDashboard.jsx";
 import AdminRoutes from "./AdminRoutes.jsx";
@@ -38,7 +35,7 @@ import DoctorProfile from '../Pages/Medical/DoctorProfile.jsx';
 import DoctorVideoCall from '../Pages/Medical/DoctorVideoCall.jsx';
 import UserPrescriptions from "../Pages/Dashboard/Prescriptions.jsx";
 
->>>>>>> Stashed changes
+
 
 
 
@@ -79,9 +76,9 @@ export const router = createBrowserRouter([
                 path: '/register',
                 element: <Registration></Registration>
             },
-<<<<<<< Updated upstream
+
             
-=======
+
             {
                 path: '/doctorsprofile',
                 element: <DoctorProfile></DoctorProfile>
@@ -92,7 +89,6 @@ export const router = createBrowserRouter([
                 element: <DoctorVideoCall></DoctorVideoCall>
             },
 
->>>>>>> Stashed changes
         ]
     },
     {
@@ -100,11 +96,12 @@ export const router = createBrowserRouter([
         element: <Dashboard></Dashboard>,
         children: [
             {
-<<<<<<< Updated upstream
+
                 path: 'profile',
                 element: "nothing"
-            }
-=======
+            },
+            {
+
                 path: 'addPost',
                 element: <PostAdoption></PostAdoption>,
             },
@@ -160,7 +157,7 @@ export const router = createBrowserRouter([
 
 
 
->>>>>>> Stashed changes
+
         ]
         
     }

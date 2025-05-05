@@ -2,10 +2,6 @@ import React from 'react';
 
 const Dashboard = () => {
     return (
-<<<<<<< Updated upstream
-        <div>
-            
-=======
         <div className='flex'>
             {/* Sidebar */}
             <div className='w-64 min-h-screen bg-gradient-to-r from-[#5F040D] via-[#9C3346] to-[#5F040D] px-4 py-2 '>
@@ -145,7 +141,6 @@ const Dashboard = () => {
             <div className='flex-1 p-8'>
                 <Outlet />
             </div>
->>>>>>> Stashed changes
         </div>
     );
 };
