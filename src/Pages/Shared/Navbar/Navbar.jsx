@@ -101,7 +101,7 @@ const Navbar = () => {
                                             isAdmin
                                                 ? '/dashboard/adminDashboard'
                                                 : isDoctor
-                                                    ? '/dashboard/doctorsprofile'
+                                                    ? '/dashboard/doctorProfile'
                                                     : '/dashboard/user'
                                         }
                                         className="block px-4 py-2 hover:bg-[#CD346C] transition"

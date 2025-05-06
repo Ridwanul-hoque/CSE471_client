@@ -15,7 +15,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F7B385] to-[#FFDAB9] flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen  bg-gradient-to-r from-[#FFE8DA] via-[#FFD6BE] to-[#FFE3D0] flex flex-col items-center justify-center px-4 py-12">
       <div className="text-center max-w-2xl mb-10">
         <h1 className="text-4xl md:text-5xl font-bold text-[#49312C] mb-4">
           24/7 Pet Care at Your Fingertips!
@@ -36,13 +36,13 @@ const Landing = () => {
           <p className="text-[#49312C]">Instant live video/audio chat with our experts.</p>
         </Link>
 
-        <Link to="/vet-bot" className="relative p-6 bg-white shadow-md rounded-xl hover:shadow-xl transform transition duration-300 hover:scale-105">
+        {/* <Link to="/vet-bot" className="relative p-6 bg-white shadow-md rounded-xl hover:shadow-xl transform transition duration-300 hover:scale-105">
           <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full rotate-12">
             NEW
           </div>
           <h2 className="text-2xl font-bold text-[#49312C] mb-2">Talk to VetBot</h2>
           <p className="text-[#49312C]">Ask questions and get smart AI responses instantly.</p>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

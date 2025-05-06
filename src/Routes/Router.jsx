@@ -19,10 +19,10 @@ import ManageUser from "../Pages/Dashboard/ManageUser/ManageUser.jsx";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard/AdminDashboard.jsx";
 import PostAdoption from "../Pages/Dashboard/PostAddoption/PostAdoption.jsx";
 import MissingFeed from "../Pages/Home/MissingFeed/MissingFeed.jsx";
-import { VetProfiles } from "../Pages/Medical/VetProfiles";
+
 import BookAppointment from "../Pages/Medical/BookAppointment";
 import VideoCall from "../Pages/Medical/VideoCall";
-import VetBot from "../Pages/Medical/VetBot";
+// import VetBot from "../Pages/Medical/VetBot";
 import Medical from "../Pages/Medical/Landing";
 import ProductAdmin from "../Pages/Dashboard/AdminProduct/AdminProduct.jsx";
 import Shop from "../Pages/Shop/Shop.jsx";
@@ -32,11 +32,15 @@ import AdoptForm from "../Pages/AdoptForm/AdoptForm.jsx";
 import AdoptionApproval from "../Pages/Dashboard/AdoptionApproval/AdoptionApproval.jsx";
 import AdoptedPets from "../Pages/Dashboard/AdoptedPets/AdoptedPets.jsx";
 import MissingPets from "../Pages/Dashboard/MissingPets/MissingPets.jsx";
-import DoctorProfile from "../Pages/Medical/DoctorProfile.jsx";
+
 import DoctorVideoCall from "../Pages/Medical/DoctorVideoCall.jsx";
 import UserPrescriptions from "../Pages/Dashboard/Prescription/Prescription.jsx";
 import DoctorRoutes from "./DoctorRoutes.jsx";
 import DoctorInformation from "../Pages/Dashboard/DoctorInformation/DoctorInformation.jsx";
+import VetProfiles from "../Pages/Medical/VetProfiles.jsx";
+import DoctorProfile from "../Pages/Medical/DoctorProfile.jsx";
+import Doctor from "../Pages/Dashboard/Doctor/Doctor.jsx";
+import DoctorQueue from "../Pages/Dashboard/DoctorQueue/DoctorQueue.jsx";
 
 
 
@@ -91,10 +95,10 @@ export const router = createBrowserRouter([
                 path: '/video-call',
                 element: <VideoCall></VideoCall>
             },
-            {
-                path: '/vet-bot',
-                element: <VetBot></VetBot>
-            },
+            // {
+            //     path: '/vet-bot',
+            //     element: <VetBot></VetBot>
+            // },
             {
 
                 path: '/login',
@@ -172,12 +176,16 @@ export const router = createBrowserRouter([
                 element: <AdminRoutes><AdoptionApproval></AdoptionApproval></AdminRoutes>
             },
             {
-                path: 'doctorsprofile',
-                element: <DoctorRoutes><DoctorProfile></DoctorProfile></DoctorRoutes>
+                path: 'doctorProfile',
+                element: <DoctorRoutes><DoctorQueue></DoctorQueue></DoctorRoutes>
             },
             {
                 path: 'doctorInfo',
                 element: <DoctorRoutes><DoctorInformation></DoctorInformation></DoctorRoutes>
+            },
+            {
+                path: 'doctor',
+                element: <DoctorRoutes><Doctor></Doctor></DoctorRoutes>
             },
             
 
