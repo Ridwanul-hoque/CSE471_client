@@ -1,15 +1,16 @@
 import {
     createBrowserRouter,
-    
+
 } from "react-router-dom";
 import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home";
 import Adoption from "../Pages/adoption/adoption";
-import Accessories from "../Pages/Accessories/Accessories";
-import Medical from "../Pages/Medical/Medical";
+// import Accessories from "../Pages/Accessories/Accessories";
+// import Medical from "../Pages/Medical/Medical";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
+
 
 import PrivateRoutes from "./PrivateRoutes";
 import UserDashboard from "../Pages/Dashboard/UserDashboard/UserDashboard.jsx";
@@ -31,9 +32,10 @@ import AdoptForm from "../Pages/AdoptForm/AdoptForm.jsx";
 import AdoptionApproval from "../Pages/Dashboard/AdoptionApproval/AdoptionApproval.jsx";
 import AdoptedPets from "../Pages/Dashboard/AdoptedPets/AdoptedPets.jsx";
 import MissingPets from "../Pages/Dashboard/MissingPets/MissingPets.jsx";
-import DoctorProfile from '../Pages/Medical/DoctorProfile.jsx';
-import DoctorVideoCall from '../Pages/Medical/DoctorVideoCall.jsx';
-import UserPrescriptions from "../Pages/Dashboard/Prescriptions.jsx";
+import DoctorProfile from "../Pages/Medical/DoctorProfile.jsx";
+import DoctorVideoCall from "../Pages/Medical/DoctorVideoCall.jsx";
+import UserPrescriptions from "../Pages/Dashboard/Prescription/Prescription.jsx";
+import DoctorRoutes from "./DoctorRoutes.jsx";
 
 
 
@@ -50,25 +52,50 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/adoption',
-                element: <Adoption></Adoption>
+                element: <PrivateRoutes><Adoption></Adoption></PrivateRoutes>
             },
             {
-                path: '/accessories',
-                element: <Accessories></Accessories>
+                path: '/rescue',
+                element: <PrivateRoutes><Rescue></Rescue></PrivateRoutes>
             },
             {
-                path: '/medical',
-                element: <Medical></Medical>
-            },
-            {
-                path: '/medical',
-                element: <Medical></Medical>
+                path: '/Shop',
+                element: <PrivateRoutes><Shop></Shop></PrivateRoutes>
             },
             {
                 path: '/medical',
                 element: <Medical></Medical>
             },
             {
+                path: '/missingfeed',
+                element: <PrivateRoutes><MissingFeed></MissingFeed></PrivateRoutes>
+            },
+            {
+                path: '/medical',
+                element: <Medical></Medical>
+            },
+            {
+                path: '/adopt/:id',
+                element: <AdoptForm></AdoptForm>
+            },
+            {
+                path: '/vet-profiles',
+                element: <VetProfiles></VetProfiles>
+            },
+            {
+                path: '/book-appointment',
+                element: <BookAppointment></BookAppointment>
+            },
+            {
+                path: '/video-call',
+                element: <VideoCall></VideoCall>
+            },
+            {
+                path: '/vet-bot',
+                element: <VetBot></VetBot>
+            },
+            {
+
                 path: '/login',
                 element: <Login></Login>
             },
@@ -76,13 +103,7 @@ export const router = createBrowserRouter([
                 path: '/register',
                 element: <Registration></Registration>
             },
-
             
-
-            {
-                path: '/doctorsprofile',
-                element: <DoctorProfile></DoctorProfile>
-            },
 
             {
                 path: '/doctorvideocall',
@@ -92,16 +113,11 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: '/dashboard',
-        element: <Dashboard></Dashboard>,
+        path: 'dashboard',
+        element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         children: [
-            {
 
-                path: 'profile',
-                element: "nothing"
-            },
             {
-
                 path: 'addPost',
                 element: <PostAdoption></PostAdoption>,
             },
@@ -133,7 +149,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'prescriptions',
-                element: <UserPrescriptions/>
+                element: <PrivateRoutes><UserPrescriptions></UserPrescriptions></PrivateRoutes>
             },
 
 
@@ -145,6 +161,7 @@ export const router = createBrowserRouter([
                 path: 'manageUsers',
                 element: <AdminRoutes><ManageUser></ManageUser></AdminRoutes>
             },
+            
             {
                 path: 'manageProducts',
                 element: <AdminRoutes><ProductAdmin></ProductAdmin></AdminRoutes>
@@ -153,12 +170,14 @@ export const router = createBrowserRouter([
                 path: 'approval',
                 element: <AdminRoutes><AdoptionApproval></AdoptionApproval></AdminRoutes>
             },
+            {
+                path: 'doctorsprofile',
+                element: <DoctorRoutes><DoctorProfile></DoctorProfile></DoctorRoutes>
+            },
             
 
 
 
-
         ]
-        
     }
 ]);

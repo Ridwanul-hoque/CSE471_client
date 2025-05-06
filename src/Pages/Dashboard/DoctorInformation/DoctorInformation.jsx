@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MeidcalRoute = () => {
+const DoctorInformation = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const MeidcalRoute = () => {
     );
 };
 
-export default MeidcalRoute;
+export default DoctorInformation;
