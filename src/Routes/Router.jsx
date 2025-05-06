@@ -36,6 +36,7 @@ import DoctorProfile from "../Pages/Medical/DoctorProfile.jsx";
 import DoctorVideoCall from "../Pages/Medical/DoctorVideoCall.jsx";
 import UserPrescriptions from "../Pages/Dashboard/Prescription/Prescription.jsx";
 import DoctorRoutes from "./DoctorRoutes.jsx";
+import DoctorInformation from "../Pages/Dashboard/DoctorInformation/DoctorInformation.jsx";
 
 
 
@@ -173,6 +174,10 @@ export const router = createBrowserRouter([
             {
                 path: 'doctorsprofile',
                 element: <DoctorRoutes><DoctorProfile></DoctorProfile></DoctorRoutes>
+            },
+            {
+                path: 'doctorInfo',
+                element: <DoctorRoutes><DoctorInformation></DoctorInformation></DoctorRoutes>
             },
             
 

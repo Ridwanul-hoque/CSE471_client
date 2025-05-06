@@ -96,6 +96,18 @@ const Dashboard = () => {
                   <FaUser className="text-xl" /> <span>Doctor Profile</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/dashboard/doctorInfo"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#ffffff14] hover:shadow-lg ${
+                      isActive ? 'bg-[#ffffff20] shadow-md text-[#FFD3DB]' : ''
+                    }`
+                  }
+                >
+                  <FaUser className="text-xl" /> <span>Doctor Profile</span>
+                </NavLink>
+              </li>
             </>
           ) : (
             <>
@@ -108,7 +120,7 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <IoIosContact className="text-xl" /> <span>Profile</span>
+                  <IoIosContact className="text-xl" /> <span>Add Your Information</span>
                 </NavLink>
               </li>
               <li>

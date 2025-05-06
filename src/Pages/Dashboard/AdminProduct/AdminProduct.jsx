@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ProductAdmin = () => {
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+    
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -80,35 +83,39 @@ const ProductAdmin = () => {
 
         try {
             setLoading(true);
+            let imageUrl = null;
 
-            // Create FormData object to handle file upload
-            const productData = new FormData();
-            productData.append('name', formData.name);
-            productData.append('description', formData.description);
-            productData.append('price', formData.price);
-            productData.append('category', formData.category);
-            productData.append('stockQuantity', formData.stockQuantity);
-
+            // Upload image to ImgBB if provided
             if (formData.image) {
-                productData.append('image', formData.image);
+                const imageFormData = new FormData();
+                imageFormData.append('image', formData.image);
+
+                const imgBBRes = await axios.post(image_hosting_api, imageFormData);
+                imageUrl = imgBBRes.data?.data?.url;
             }
+
+            const productData = {
+                name: formData.name,
+                description: formData.description,
+                price: parseFloat(formData.price),
+                category: formData.category,
+                stockQuantity: parseInt(formData.stockQuantity),
+                image: imageUrl,
+            };
 
             const config = {
                 headers: {
                     'Authorization': `Bearer ${getAuthToken()}`,
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             };
 
             if (isEditing) {
-                // Update existing product
                 await axios.put(`http://localhost:5000/api/products/${selectedProduct._id}`, productData, config);
             } else {
-                // Create new product
                 await axios.post('http://localhost:5000/api/products', productData, config);
             }
 
-            // Refresh product list
             fetchProducts();
             resetForm();
 
