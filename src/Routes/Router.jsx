@@ -32,6 +32,10 @@ import AdoptForm from "../Pages/AdoptForm/AdoptForm.jsx";
 import AdoptionApproval from "../Pages/Dashboard/AdoptionApproval/AdoptionApproval.jsx";
 import AdoptedPets from "../Pages/Dashboard/AdoptedPets/AdoptedPets.jsx";
 import MissingPets from "../Pages/Dashboard/MissingPets/MissingPets.jsx";
+import DoctorProfile from "../Pages/Medical/DoctorProfile.jsx";
+import DoctorVideoCall from "../Pages/Medical/DoctorVideoCall.jsx";
+import UserPrescriptions from "../Pages/Dashboard/Prescription/Prescription.jsx";
+import DoctorRoutes from "./DoctorRoutes.jsx";
 
 
 
@@ -99,6 +103,12 @@ export const router = createBrowserRouter([
                 path: '/register',
                 element: <Registration></Registration>
             },
+            
+
+            {
+                path: '/doctorvideocall',
+                element: <DoctorVideoCall></DoctorVideoCall>
+            },
 
         ]
     },
@@ -137,6 +147,10 @@ export const router = createBrowserRouter([
                 element: <PrivateRoutes><UserDashboard></UserDashboard></PrivateRoutes>,
 
             },
+            {
+                path: 'prescriptions',
+                element: <PrivateRoutes><UserPrescriptions></UserPrescriptions></PrivateRoutes>
+            },
 
 
             {
@@ -147,6 +161,7 @@ export const router = createBrowserRouter([
                 path: 'manageUsers',
                 element: <AdminRoutes><ManageUser></ManageUser></AdminRoutes>
             },
+            
             {
                 path: 'manageProducts',
                 element: <AdminRoutes><ProductAdmin></ProductAdmin></AdminRoutes>
@@ -154,6 +169,10 @@ export const router = createBrowserRouter([
             {
                 path: 'approval',
                 element: <AdminRoutes><AdoptionApproval></AdoptionApproval></AdminRoutes>
+            },
+            {
+                path: 'doctorsprofile',
+                element: <DoctorRoutes><DoctorProfile></DoctorProfile></DoctorRoutes>
             },
             
 

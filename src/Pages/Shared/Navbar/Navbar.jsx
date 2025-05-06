@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import logo from "../../../assets/logo_2.png"
 import useAdmin from '../../../Hooks/useAdmin';
+import useDoctor from '../../../Hooks/useDoctor';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
     const [isAdmin] = useAdmin();
+    const [isDoctor] = useDoctor();
 
     const handlelogout = () => {
         logout()
@@ -95,7 +97,13 @@ const Navbar = () => {
                             <ul className="text-[#F5E3D9]">
                                 <li>
                                     <Link
-                                        to={isAdmin ? '/dashboard/adminDashboard' : '/dashboard/user'}
+                                        to={
+                                            isAdmin
+                                                ? '/dashboard/adminDashboard'
+                                                : isDoctor
+                                                    ? '/dashboard/doctorsprofile'
+                                                    : '/dashboard/user'
+                                        }
                                         className="block px-4 py-2 hover:bg-[#CD346C] transition"
                                     >
                                         Dashboard
