@@ -47,7 +47,7 @@
 //   // Accept patient and go to video call
 //   const handleStartCall = async (userId) => {
 //     const token = localStorage.getItem("access-token");
-  
+
 //     try {
 //       const res = await fetch("http://localhost:5000/api/queue/accept", {
 //         method: "POST",
@@ -60,17 +60,17 @@
 //           userId
 //         })
 //       });
-  
+
 //       if (res.ok) {
 //         setPatientsQueue(prev => prev.filter(patient => patient.id !== userId));
 //       } else {
 //         console.warn("Queue update failed, proceeding anyway.");
 //       }
-  
+
 //     } catch (err) {
 //       console.error("Failed to start call:", err);
 //     }
-  
+
 //     // ✅ Always redirect to call page
 //     window.location.href = "/doctorvideocall";
 //   };
@@ -166,12 +166,459 @@
 
 
 
-import React from 'react';
+// import React, { useContext, useEffect, useState } from 'react';
+// import { AuthContext } from '../../Providers/AuthProviders';
+
+// const DoctorProfile = () => {
+//   const { user } = useContext(AuthContext);
+//   const [queue, setQueue] = useState([]);
+//   const [selectedCase, setSelectedCase] = useState(null);
+//   const [prescriptionText, setPrescriptionText] = useState('');
+  
+
+//   useEffect(() => {
+//     fetch('http://localhost:5000/api/queue')
+//       .then(res => res.json())
+//       .then(data => {
+//         const filtered = data.filter(item => item.doctorEmail === user?.email);
+//         setQueue(filtered);
+//       });
+//   }, [user?.email]);
+
+//   const handlePrescriptionSubmit = async () => {
+//     if (!selectedCase || !prescriptionText) return;
+
+//     const prescriptionData = {
+//       userId: selectedCase.userId,
+//       doctorEmail: user.email,
+//       petName: selectedCase.petName,
+//       prescription: prescriptionText,
+//       createdAt: new Date()
+//     };
+
+//     try {
+//       // Send prescription
+//       await fetch('http://localhost:5000/api/prescriptions', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(prescriptionData)
+//       });
+
+//       // Delete from queue
+//       await fetch(`http://localhost:5000/api/queue/${selectedCase._id}`, {
+//         method: 'DELETE'
+//       });
+
+//       // Update UI
+//       setQueue(prev => prev.filter(item => item._id !== selectedCase._id));
+//       setSelectedCase(null);
+//       setPrescriptionText('');
+//     } catch (err) {
+//       console.error('Error handling prescription:', err);
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+//       <h2>sdfsdfsdf</h2>
+//       {queue.map((item) => (
+//         <div key={item._id} className="bg-white p-4 rounded-xl shadow-md border">
+//           <h2 className="text-xl font-bold mb-2">{item.petName}</h2>
+//           <p><strong>Age:</strong> {item.petAge}</p>
+//           <p><strong>Problem:</strong> {item.problem}</p>
+//           <p><strong>Status:</strong> {item.status}</p>
+//           <div className="mt-4 flex justify-between">
+//             <button
+//               className="bg-blue-500 text-white px-4 py-1 rounded"
+//               onClick={() => alert('Start video call logic here')}
+//             >
+//               Video Call
+//             </button>
+//             <button
+//               className="bg-green-600 text-white px-4 py-1 rounded"
+//               onClick={() => setSelectedCase(item)}
+//             >
+//               Prescription
+//             </button>
+//           </div>
+//         </div>
+//       ))}
+
+//       {/* Prescription Modal */}
+//       {selectedCase && (
+//         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+//           <div className="bg-white p-6 rounded-xl w-full max-w-md">
+//             <h3 className="text-xl font-bold mb-2">
+//               Prescription for {selectedCase.petName}
+//             </h3>
+//             <textarea
+//               className="w-full border rounded p-2 mb-4"
+//               rows="5"
+//               value={prescriptionText}
+//               onChange={(e) => setPrescriptionText(e.target.value)}
+//               placeholder="Write prescription here..."
+//             />
+//             <div className="flex justify-end gap-2">
+//               <button
+//                 className="bg-gray-400 text-white px-3 py-1 rounded"
+//                 onClick={() => setSelectedCase(null)}
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 className="bg-green-600 text-white px-3 py-1 rounded"
+//                 onClick={handlePrescriptionSubmit}
+//               >
+//                 Submit
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default DoctorProfile;
+
+
+// import React, { useContext, useEffect, useState } from 'react';
+// import { AuthContext } from '../../Providers/AuthProviders';
+
+// const DoctorProfile = () => {
+//   const { user } = useContext(AuthContext);
+//   const [queue, setQueue] = useState([]);
+//   const [selectedCase, setSelectedCase] = useState(null);
+//   const [selectedLink, setSelectedLink] = useState(null);
+
+//   const [prescriptionText, setPrescriptionText] = useState('');
+//   const [videoLink, setVideoLink] = useState('');
+// const [videoCase, setVideoCase] = useState(null);
+
+  
+
+//   useEffect(() => {
+//     fetch('http://localhost:5000/api/queue')
+//       .then(res => res.json())
+//       .then(data => {
+//         const filtered = data.filter(item => item.doctorEmail === user?.email);
+//         setQueue(filtered);
+//       });
+//   }, [user?.email]);
+
+//   const handlePrescriptionSubmit = async () => {
+//     if (!selectedCase || !prescriptionText) return;
+
+//     const prescriptionData = {
+//       userId: selectedCase.userId,
+//       doctorEmail: user.email,
+//       petName: selectedCase.petName,
+//       prescription: prescriptionText,
+//       createdAt: new Date()
+//     };
+
+//     try {
+//       // Send prescription
+//       await fetch('http://localhost:5000/api/prescriptions', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify(prescriptionData)
+//       });
+
+//       // Delete from queue
+//       await fetch(`http://localhost:5000/api/queue/${selectedCase._id}`, {
+//         method: 'DELETE'
+//       });
+
+//       // Update UI
+//       setQueue(prev => prev.filter(item => item._id !== selectedCase._id));
+//       setSelectedCase(null);
+//       setPrescriptionText('');
+//     } catch (err) {
+//       console.error('Error handling prescription:', err);
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+//       <h2>sdfsdfsdf</h2>
+//       {queue.map((item) => (
+//         <div key={item._id} className="bg-white p-4 rounded-xl shadow-md border">
+//           <h2 className="text-xl font-bold mb-2">{item.petName}</h2>
+//           <p><strong>Age:</strong> {item.petAge}</p>
+//           <p><strong>Problem:</strong> {item.problem}</p>
+//           <p><strong>Status:</strong> {item.status}</p>
+//           <div className="mt-4 justify-between grid grid-cols-1 md:grid-cols-3 gap-4">
+//             <button
+//               className="bg-blue-500 text-white px-4 py-1 rounded"
+//               onClick={() => alert('Start video call logic here')}
+//             >
+//               Video Call
+//             </button>
+//             <button
+//               className="bg-blue-500 text-white px-4 py-1 rounded"
+//               onClick={() => alert('Start video call logic here')}
+//             >
+//               Post A Link
+//             </button>
+            
+//             <button
+//               className="bg-green-600 text-white px-4 py-1 rounded"
+//               onClick={() => setSelectedCase(item)}
+//             >
+//               Prescription
+//             </button>
+
+//           </div>
+//         </div>
+//       ))}
+
+//       {/* Prescription Modal */}
+//       {selectedCase && (
+//         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+//           <div className="bg-white p-6 rounded-xl w-full max-w-md">
+//             <h3 className="text-xl font-bold mb-2">
+//               Prescription for {selectedCase.petName}
+//             </h3>
+//             <textarea
+//               className="w-full border rounded p-2 mb-4"
+//               rows="5"
+//               value={prescriptionText}
+//               onChange={(e) => setPrescriptionText(e.target.value)}
+//               placeholder="Write prescription here..."
+//             />
+//             <div className="flex justify-end gap-2">
+//               <button
+//                 className="bg-gray-400 text-white px-3 py-1 rounded"
+//                 onClick={() => setSelectedCase(null)}
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 className="bg-green-600 text-white px-3 py-1 rounded"
+//                 onClick={handlePrescriptionSubmit}
+//               >
+//                 Submit
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//       {/* Prescription Modal */}
+//       {selectedLink && (
+//         <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+//           <div className="bg-white p-6 rounded-xl w-full max-w-md">
+//             <h3 className="text-xl font-bold mb-2">
+//               Link
+//             </h3>
+//             <textarea
+//               className="w-full border rounded p-2 mb-4"
+//               rows="5"
+//               value={prescriptionText}
+//               onChange={(e) => setPrescriptionText(e.target.value)}
+//               placeholder="Write prescription here..."
+//             />
+//             <div className="flex justify-end gap-2">
+//               <button
+//                 className="bg-gray-400 text-white px-3 py-1 rounded"
+//                 onClick={() => setSelectedCase(null)}
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 className="bg-green-600 text-white px-3 py-1 rounded"
+//                 onClick={handleLink}
+//               >
+//                 Submit
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default DoctorProfile;
+
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../Providers/AuthProviders';
 
 const DoctorProfile = () => {
+  const { user } = useContext(AuthContext);
+  const [queue, setQueue] = useState([]);
+  const [selectedCase, setSelectedCase] = useState(null);
+  const [selectedLinkCase, setSelectedLinkCase] = useState(null);
+  const [prescriptionText, setPrescriptionText] = useState('');
+  const [videoLink, setVideoLink] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/queue')
+      .then(res => res.json())
+      .then(data => {
+        const filtered = data.filter(item => item.doctorEmail === user?.email);
+        setQueue(filtered);
+      });
+  }, [user?.email]);
+
+  const handlePrescriptionSubmit = async () => {
+    if (!selectedCase || !prescriptionText) return;
+
+    const prescriptionData = {
+      userId: selectedCase.userId,
+      doctorEmail: user.email,
+      petName: selectedCase.petName,
+      prescription: prescriptionText,
+      createdAt: new Date()
+    };
+
+    try {
+      // Send prescription
+      await fetch('http://localhost:5000/api/prescriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(prescriptionData)
+      });
+
+      // Delete from queue
+      await fetch(`http://localhost:5000/api/queue/${selectedCase._id}`, {
+        method: 'DELETE'
+      });
+
+      // Update UI
+      setQueue(prev => prev.filter(item => item._id !== selectedCase._id));
+      setSelectedCase(null);
+      setPrescriptionText('');
+    } catch (err) {
+      console.error('Error handling prescription:', err);
+    }
+  };
+
+  const handleLinkSubmit = async () => {
+    if (!selectedLinkCase || !videoLink) return;
+
+    try {
+      // Send notification or update the case with the video link
+      await fetch('http://localhost:5000/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: selectedLinkCase.userId,
+          message: `Video consultation link for ${selectedLinkCase.petName}: ${videoLink}`,
+          type: 'video-link'
+        })
+      });
+
+      // Close modal and reset
+      setSelectedLinkCase(null);
+      setVideoLink('');
+      alert('Link sent successfully!');
+    } catch (err) {
+      console.error('Error sending link:', err);
+    }
+  };
+
   return (
-    <div>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-6">Your Consultation Queue</h2>
       
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {queue.map((item) => (
+          <div key={item._id} className="bg-white p-4 rounded-xl shadow-md border">
+            <h2 className="text-xl font-bold mb-2">{item.petName}</h2>
+            <p><strong>Age:</strong> {item.petAge}</p>
+            <p><strong>Problem:</strong> {item.problem}</p>
+            <p><strong>Status:</strong> {item.status}</p>
+            
+            <div className="mt-4 flex flex-wrap gap-2">
+              {/* <button
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded flex-1 min-w-[120px]"
+                onClick={() => alert('Start video call logic here')}
+              >
+                Video Call
+              </button> */}
+              
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded flex-1 min-w-[120px]"
+                onClick={() => setSelectedLinkCase(item)}
+              >
+                Post A Link
+              </button>
+              
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded flex-1 min-w-[120px]"
+                onClick={() => setSelectedCase(item)}
+              >
+                Prescription
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Prescription Modal */}
+      {selectedCase && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-xl w-full max-w-md mx-4">
+            <h3 className="text-xl font-bold mb-2">
+              Prescription for {selectedCase.petName}
+            </h3>
+            <textarea
+              className="w-full border rounded p-2 mb-4"
+              rows="5"
+              value={prescriptionText}
+              onChange={(e) => setPrescriptionText(e.target.value)}
+              placeholder="Write prescription here..."
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded"
+                onClick={() => setSelectedCase(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                onClick={handlePrescriptionSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Link Submission Modal */}
+      {selectedLinkCase && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-xl w-full max-w-md mx-4">
+            <h3 className="text-xl font-bold mb-2">
+              Video Consultation Link for {selectedLinkCase.petName}
+            </h3>
+            <input
+              type="text"
+              className="w-full border rounded p-2 mb-4"
+              value={videoLink}
+              onChange={(e) => setVideoLink(e.target.value)}
+              placeholder="Enter video consultation link..."
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded"
+                onClick={() => setSelectedLinkCase(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                onClick={handleLinkSubmit}
+              >
+                Send Link
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

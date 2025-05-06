@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 
-
 export const BookAppointment = () => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const doctorEmail = location.state?.doctorEmail;
+
   const [formData, setFormData] = useState({
     petName: '',
     petAge: '',
@@ -22,7 +24,9 @@ export const BookAppointment = () => {
 
     const queuePayload = {
       email: user?.email,
-      ...formData
+      doctorEmail,
+      ...formData,
+      status: 'waiting'
     };
 
     try {
@@ -47,7 +51,7 @@ export const BookAppointment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F7B385] to-[#FFDAB9] flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-r from-[#FFE8DA] via-[#FFD6BE] to-[#FFE3D0] flex flex-col items-center justify-center px-4 py-12">
       <h2 className="text-2xl font-bold text-center text-[#49312C] mb-6">Enter Your Pet's Details</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -85,6 +89,7 @@ export const BookAppointment = () => {
         </div>
         <button
           type="submit"
+          onClick={() => window.open('http://localhost:3000/', '_blank')}
           className="w-full bg-[#49312C] text-[#F7B385] font-bold py-2 rounded-lg hover:bg-[#F7B385] hover:text-[#49312C]"
         >
           Proceed to Call

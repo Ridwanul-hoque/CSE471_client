@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import useAdmin from '../../Hooks/useAdmin';
 import useDoctor from '../../Hooks/useDoctor';
 
-import { FaAdjust, FaHome, FaUser } from 'react-icons/fa';
+import { FaAdjust, FaHome, FaInfo, FaUser } from 'react-icons/fa';
 import { IoIosContact } from 'react-icons/io';
 import { MdOutlineViewInAr, MdApproval } from 'react-icons/md';
 import { GrContactInfo } from 'react-icons/gr';
@@ -69,7 +69,7 @@ const Dashboard = () => {
                   <CiSquareQuestion className="text-xl" /> <span>Approved Adoption</span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/dashboard/doctorsprofile"
                   className={({ isActive }) =>
@@ -80,13 +80,13 @@ const Dashboard = () => {
                 >
                   <CiSquareQuestion className="text-xl" /> <span>Doctor Profile</span>
                 </NavLink>
-              </li>
+              </li> */}
             </>
           ) : isDoctor ? (
             <>
               <li>
                 <NavLink
-                  to="/dashboard/doctorsprofile"
+                  to="/dashboard/doctorProfile"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#ffffff14] hover:shadow-lg ${
                       isActive ? 'bg-[#ffffff20] shadow-md text-[#FFD3DB]' : ''
@@ -105,7 +105,19 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <FaUser className="text-xl" /> <span>Doctor Profile</span>
+                  <FaInfo className="text-xl" /> <span>Add Your Information</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/doctor"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#ffffff14] hover:shadow-lg ${
+                      isActive ? 'bg-[#ffffff20] shadow-md text-[#FFD3DB]' : ''
+                    }`
+                  }
+                >
+                  <FaInfo className="text-xl" /> <span>Add Your Information</span>
                 </NavLink>
               </li>
             </>
@@ -120,7 +132,7 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <IoIosContact className="text-xl" /> <span>Add Your Information</span>
+                  <IoIosContact className="text-xl" /> <span>User Profile</span>
                 </NavLink>
               </li>
               <li>
