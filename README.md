@@ -55,7 +55,7 @@ cd pawkie
 npm install
 ```
 
-### ▶️ Run the Development Server
+### Run the Development Server
 
 ```bash
 npm start
