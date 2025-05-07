@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
+import Swal from 'sweetalert2';
 
 export const BookAppointment = () => {
   const { user } = useContext(AuthContext);
@@ -30,7 +31,7 @@ export const BookAppointment = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/queue", {
+      const res = await fetch("https://pawkie-server.vercel.app/api/queue", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,10 +44,19 @@ export const BookAppointment = () => {
       if (res.ok) {
         navigate("/video-call");
       } else {
-        alert(result.message || "Something went wrong");
+        Swal.fire({
+          icon: 'error',
+          title: 'Submission Failed',
+          text: result.message || "Something went wrong"
+        });
       }
     } catch (err) {
       console.error("❌ Submit error:", err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Something went wrong while submitting the form.'
+      });
     }
   };
 
@@ -89,7 +99,72 @@ export const BookAppointment = () => {
         </div>
         <button
           type="submit"
-          onClick={() => window.open('http://localhost:3000/', '_blank')}
+          onClick={async () => {
+            try {
+              const userEmail = user?.email;
+
+              // Fetch users and find the one with the logged-in email
+              const userRes = await fetch("https://pawkie-server.vercel.app/users");
+              const users = await userRes.json();
+              let matchedUser = users.find(u => u.email === userEmail);
+
+              if (!matchedUser) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'User Not Found',
+                  text: 'User not found in database.'
+                });
+                return;
+              }
+
+              // Check IPO status
+              if (matchedUser.IPO === true) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Access Denied',
+                  text: 'IPO status is true.'
+                });
+                return;
+              }
+
+              // Fetch links and find one that matches the user's _id
+              const linkRes = await fetch("https://pawkie-server.vercel.app/api/links");
+              const links = await linkRes.json();
+              const userLink = links.find(link => link.userId === matchedUser._id);
+
+              if (!userLink) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No Link Found',
+                  text: 'No video call link found for this user.'
+                });
+                return;
+              }
+
+              // Open the link in a new tab
+              window.open(userLink.link, "_blank");
+
+              // Update IPO status in the backend
+              await fetch(`https://pawkie-server.vercel.app/users/IPO`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  userId: matchedUser._id,
+                  IPO: true
+                }),
+              });
+
+            } catch (error) {
+              console.error("Error fetching user link:", error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Unexpected Error',
+                text: 'Something went wrong while trying to open the link.'
+              });
+            }
+          }}
           className="w-full bg-[#49312C] text-[#F7B385] font-bold py-2 rounded-lg hover:bg-[#F7B385] hover:text-[#49312C]"
         >
           Proceed to Call

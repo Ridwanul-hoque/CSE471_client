@@ -43,6 +43,7 @@ import Doctor from "../Pages/Dashboard/Doctor/Doctor.jsx";
 import DoctorQueue from "../Pages/Dashboard/DoctorQueue/DoctorQueue.jsx";
 import MissingPetsData from "../Pages/Dashboard/MissingPetsData/MissingPetsData.jsx";
 import RescuePetData from "../Pages/Dashboard/RescuePetData/RescuePetData.jsx";
+import AddReview from "../Pages/Dashboard/addReview/addReview.jsx";
 
 
 
@@ -88,11 +89,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/vet-profiles',
-                element: <VetProfiles></VetProfiles>
+                element: <PrivateRoutes><VetProfiles></VetProfiles></PrivateRoutes>
             },
             {
                 path: '/book-appointment',
-                element: <BookAppointment></BookAppointment>
+                element: <PrivateRoutes><BookAppointment></BookAppointment></PrivateRoutes>
             },
             {
                 path: '/video-call',
@@ -111,12 +112,13 @@ export const router = createBrowserRouter([
                 path: '/register',
                 element: <Registration></Registration>
             },
-            
+
 
             {
                 path: '/doctorvideocall',
-                element: <DoctorVideoCall></DoctorVideoCall>
+                element: <PrivateRoutes><DoctorVideoCall></DoctorVideoCall></PrivateRoutes>
             },
+            
 
         ]
     },
@@ -137,7 +139,12 @@ export const router = createBrowserRouter([
                 path: 'rescueData',
                 element: <PrivateRoutes><RescuePetData></RescuePetData></PrivateRoutes>,
             },
-            
+            {
+
+                path: 'review',
+                element: <PrivateRoutes><AddReview></AddReview></PrivateRoutes>
+            },
+
             {
                 path: 'missingInfo',
                 element: <PrivateRoutes><MissingPetsData></MissingPetsData></PrivateRoutes>
@@ -146,7 +153,7 @@ export const router = createBrowserRouter([
                 path: 'adopted',
                 element: <PrivateRoutes><AdoptedPets></AdoptedPets></PrivateRoutes>,
             },
-            
+
             {
                 path: 'missingPets',
                 element: <PrivateRoutes><MissingPets></MissingPets></PrivateRoutes>
@@ -162,6 +169,7 @@ export const router = createBrowserRouter([
             },
 
 
+
             {
                 path: 'adminDashboard',
                 element: <AdminRoutes><AdminDashboard></AdminDashboard></AdminRoutes>
@@ -170,7 +178,7 @@ export const router = createBrowserRouter([
                 path: 'manageUsers',
                 element: <AdminRoutes><ManageUser></ManageUser></AdminRoutes>
             },
-            
+
             {
                 path: 'manageProducts',
                 element: <AdminRoutes><ProductAdmin></ProductAdmin></AdminRoutes>
@@ -191,7 +199,7 @@ export const router = createBrowserRouter([
                 path: 'doctor',
                 element: <DoctorRoutes><Doctor></Doctor></DoctorRoutes>
             },
-            
+
 
 
 

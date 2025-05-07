@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SparkleEffect from '../../Shared/SparklelEffect/SparkleEffect';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { AuthContext } from '../../../Providers/AuthProviders';
 
 const MissingPets = () => {
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
     const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-
 
     const toggleChat = () => setIsChatOpen(!isChatOpen);
 
@@ -44,7 +44,7 @@ const MissingPets = () => {
             const imageUrl = imgbbResponse.data.data.url;
 
             // 2. Send post data to your server
-            const response = await axios.post("http://localhost:5000/api/missing-pet", {
+            const response = await axios.post("https://pawkie-server.vercel.app/api/missing-pet", {
                 description: petData.description,
                 image: imageUrl,
                 userName: user?.displayName,
@@ -57,17 +57,21 @@ const MissingPets = () => {
             setImagePreview(null);
             setIsSubmitting(false);
 
-            alert("Post submitted!");
+            Swal.fire({
+                icon: 'success',
+                title: 'Post submitted!',
+                text: 'Your missing pet report has been posted successfully.',
+                confirmButtonColor: '#BA6C7D'
+            });
         } catch (error) {
             console.error("Error submitting post:", error);
             setIsSubmitting(false);
         }
     };
 
-
     // Fetch posts when the component mounts
     useEffect(() => {
-        axios.get("http://localhost:5000/api/missing-posts")
+        axios.get("https://pawkie-server.vercel.app/api/missing-posts")
             .then((res) => setPosts(res.data))
             .catch((err) => console.error("Fetch error:", err));
     }, []);

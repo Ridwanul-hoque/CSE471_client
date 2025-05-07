@@ -32,7 +32,7 @@ const ProductAdmin = () => {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:5000/api/products');
+            const response = await axios.get('https://pawkie-server.vercel.app/api/products');
             setProducts(response.data);
             setError(null);
         } catch (err) {
@@ -111,9 +111,9 @@ const ProductAdmin = () => {
             };
 
             if (isEditing) {
-                await axios.put(`http://localhost:5000/api/products/${selectedProduct._id}`, productData, config);
+                await axios.put(`https://pawkie-server.vercel.app/api/products/${selectedProduct._id}`, productData, config);
             } else {
-                await axios.post('http://localhost:5000/api/products', productData, config);
+                await axios.post('https://pawkie-server.vercel.app/api/products', productData, config);
             }
 
             fetchProducts();
@@ -131,7 +131,7 @@ const ProductAdmin = () => {
         if (window.confirm('Are you sure you want to delete this product?')) {
             try {
                 setLoading(true);
-                await axios.delete(`http://localhost:5000/api/products/${productId}`, {
+                await axios.delete(`https://pawkie-server.vercel.app/api/products/${productId}`, {
                     headers: {
                         'Authorization': `Bearer ${getAuthToken()}`
                     }

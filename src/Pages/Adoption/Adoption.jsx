@@ -9,8 +9,8 @@ import PostAdoptionForm from '../PostAdoptionForm/PostAdoptionForm';
 import DecorativeWave from '../Component/Decoration/DecorativeWave';
 import AllAdoptions from '../AllAdoptions/AllAdoptions'
 import ChatBotButton from '../Component/ChatBot/ChatBotButton';
-// import ChatBotButton from '../../Pages/ChatBot/ChatBotButton';
-// import ChatWindow from '../../Pages/ChatBot/ChatWindow';
+
+import ChatWindow from '../Component/ChatBot/ChatWindow';
 
 const Adoption = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -21,7 +21,7 @@ const Adoption = () => {
 
   const fetchPosts = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/adopt");
+    const res = await fetch("https://pawkie-server.vercel.app/api/adopt");
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
@@ -92,7 +92,7 @@ const Adoption = () => {
         <AllAdoptions pets={pets} />
       </div>
       
-      Chatbot
+     
       <ChatBotButton toggleChat={toggleChat} />
       {isChatOpen && <ChatWindow closeChat={toggleChat} />}
     </>

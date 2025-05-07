@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import Footer from '../Pages/Shared/Footer/Footer';
 
 
+
 const Main = () => {
     return (
         <div>
@@ -13,6 +14,7 @@ const Main = () => {
                 </div>
             </div>
             <Outlet></Outlet>
+           
             <div className='bg-gradient-to-r from-[#FFE8DA] via-[#FFD6BE] to-[#FFE3D0] '>
                 <div className='bg-gradient-to-r from-[#5F040D] via-[#9C3346] to-[#5F040D] px-4 py-2 rounded-b-2xl'>
                     <Footer></Footer>

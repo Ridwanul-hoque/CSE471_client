@@ -12,7 +12,7 @@ const AdoptedPets = () => {
   useEffect(() => {
     const fetchAdoptedPets = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/adoptedPets');
+        const res = await axios.get('https://pawkie-server.vercel.app/api/adoptedPets');
         const filtered = res.data.filter(
           (pet) => pet.adopterEmail === user?.email && pet.status === true
         );
@@ -46,7 +46,7 @@ const AdoptedPets = () => {
           whileHover={{ scale: 1.03 }}
         >
           <img
-            src={`http://localhost:5000${pet.images[0]}`}
+            src={`https://pawkie-server.vercel.app${pet.images[0]}`}
             alt={pet.petName}
             className="w-full h-56 object-cover"
           />

@@ -12,8 +12,8 @@ const UserPrescriptions = () => {
     const fetchPrescriptions = async () => {
       try {
         const [usersRes, prescriptionsRes] = await Promise.all([
-          axios.get("http://localhost:5000/users"),
-          axios.get("http://localhost:5000/api/prescriptions")
+          axios.get("https://pawkie-server.vercel.app/users"),
+          axios.get("https://pawkie-server.vercel.app/api/prescriptions")
         ]);
 
         const matchedUser = usersRes.data.find(u => u.email === user.email);

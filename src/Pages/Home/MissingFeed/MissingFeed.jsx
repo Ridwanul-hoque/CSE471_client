@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
 import Feed from "./Feed"; // Import Feed component
 import SparkleEffect from "../../Shared/SparklelEffect/SparkleEffect";
 import { Link } from "react-router-dom";
-import ChatBotButton from "../../Component/ChatBot/ChatBotButton";
-// import ChatBotButton from '../../Pages/ChatBot/ChatBotButton';
-// import ChatWindow from '../../Pages/ChatBot/ChatWindow';
+import ChatBotButton from '../../Component/ChatBot/ChatBotButton';
+import ChatWindow from '../../Component/ChatBot/ChatWindow';
+import Swal from "sweetalert2";
+
+
 
 const MissingFeed = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -41,7 +42,7 @@ const MissingFeed = () => {
     formData.append("image", petData.image);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/missing-pet", formData, {
+      const response = await axios.post("https://pawkie-server.vercel.app/api/missing-pet", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -55,7 +56,13 @@ const MissingFeed = () => {
       setImagePreview(null);
       setIsSubmitting(false);
 
-      alert("Post submitted!");
+      Swal.fire({
+        title: 'Success!',
+        text: 'Post submitted successfully!',
+        icon: 'success',
+        confirmButtonColor: '#BA6C7D'
+      });
+
     } catch (error) {
       console.error("Error submitting post:", error);
       setIsSubmitting(false);
@@ -64,7 +71,7 @@ const MissingFeed = () => {
 
   // Fetch posts when the component mounts
   useEffect(() => {
-    axios.get("http://localhost:5000/api/missing-posts")
+    axios.get("https://pawkie-server.vercel.app/api/missing-posts")
       .then((res) => setPosts(res.data))
       .catch((err) => console.error("Fetch error:", err));
   }, []);
@@ -151,7 +158,6 @@ const MissingFeed = () => {
             </p>
             <Link to={'/dashboard/missingPets'}
               type="button"
-              // Replace this with your function
               className="mt-6 inline-flex items-center space-x-2 bg-[#BA6C7D] hover:bg-[#840B36] text-white font-semibold px-6 py-3 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
             >
               <span className="text-lg">🐶 Post for Missing Pets</span>
@@ -166,9 +172,8 @@ const MissingFeed = () => {
         <Feed posts={posts} /> {/* Pass posts as a prop to Feed */}
       </div>
 
-      Chatbot 
       <ChatBotButton toggleChat={toggleChat} />
-    {isChatOpen && <ChatWindow closeChat={toggleChat} />} 
+      {isChatOpen && <ChatWindow closeChat={toggleChat} />} 
     </div>
   );
 };

@@ -20,7 +20,7 @@ const ChatWindow = ({ closeChat }) => {
     try {
         console.log("Sending message to backend:", input);  // Log the message being sent
 
-        const response = await axios.post('http://localhost:5000/chat', {
+        const response = await axios.post('https://pawkie-server.vercel.app/chat', {
           message: input,
       });
 

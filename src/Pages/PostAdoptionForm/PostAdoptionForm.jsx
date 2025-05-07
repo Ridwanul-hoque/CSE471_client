@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Providers/AuthProviders';
+import Swal from 'sweetalert2';
 
 const PostAdoptionForm = ({ onSubmitSuccess }) => {
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
-  const { user } = useContext(AuthContext)
-
+  const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     ownerName: '',
@@ -58,11 +58,11 @@ const PostAdoptionForm = ({ onSubmitSuccess }) => {
       // Add form fields + user email + image URLs
       const submission = {
         ...formData,
-        email: user.email, // ✅ add logged-in user's email
-        images: uploadedImageUrls, // ✅ imgbb URLs
+        email: user.email,
+        images: uploadedImageUrls,
       };
 
-      const response = await fetch('http://localhost:5000/api/adopt', {
+      const response = await fetch('https://pawkie-server.vercel.app/api/adopt', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(submission),
@@ -71,19 +71,34 @@ const PostAdoptionForm = ({ onSubmitSuccess }) => {
       if (response.ok) {
         setSuccess(true);
         onSubmitSuccess?.();
+        Swal.fire({
+          title: 'Success!',
+          text: 'Pet posted for adoption successfully!',
+          icon: 'success',
+          confirmButtonColor: '#BA6C7D'
+        });
         setTimeout(() => {
           setSuccess(false);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 2000);
       } else {
-        alert('Failed to submit. Please try again.');
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to submit. Please try again.',
+          icon: 'error',
+          confirmButtonColor: '#BA6C7D'
+        });
       }
     } catch (error) {
-      alert('Error submitting form.');
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error submitting form.',
+        icon: 'error',
+        confirmButtonColor: '#BA6C7D'
+      });
       console.error(error);
     }
   };
-
 
   return (
     <div className="max-w-xl mx-auto mt-1 mb-20 bg-[#] p-10 rounded shadow-lg">

@@ -5,6 +5,7 @@ import RecentAdoptions from './RecentAdoption/RecentAdoption';
 import ChatBotButton from '../Component/ChatBot/ChatBotButton';
 import ChatWindow from '../Component/ChatBot/ChatWindow';
 import { Link } from 'react-router-dom';
+import Review from '../Review/Review';
 
 
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
                     </button>
                 </Link>
             </div>
+            <Review></Review>
 
             {/* Chatbot */}
             <ChatBotButton toggleChat={toggleChat} />

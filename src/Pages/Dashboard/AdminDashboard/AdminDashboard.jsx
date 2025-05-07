@@ -21,29 +21,58 @@ const AdminDashboard = () => {
     totalAdoptions: 0,
     totalMissing: 0,
     postsOverTime: [],
+    reviewsCount: 0,
+    doctorsCount: 0,
+    usersCount: 0,
+    adoptedPetsCount: 0,
+    productsCount: 0,
+    rescuePetsCount: 0,
+    missingPetsCount: 0,
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch adoption posts
-        const adoptionRes = await axios.get("http://localhost:5000/api/adopt");
-        const missingRes = await axios.get("http://localhost:5000/api/missing-posts");
+        const [
+          adoptionRes,
+          missingRes,
+          reviewsRes,
+          doctorsRes,
+          adoptedPetsRes,
+          productsRes,
+          rescuePetsRes,
+          missingPetsRes,
+          usersRes
+        ] = await Promise.all([
+          axios.get("https://pawkie-server.vercel.app/api/adoptedPets"),
+          axios.get("https://pawkie-server.vercel.app/api/missing-pet"),
+          axios.get("https://pawkie-server.vercel.app/reviews"),
+          axios.get("https://pawkie-server.vercel.app/doctors"),
+          axios.get("https://pawkie-server.vercel.app/api/adoptedPets"),
+          axios.get("https://pawkie-server.vercel.app/api/products"),
+          axios.get("https://pawkie-server.vercel.app/api/rescue-pet"),
+          axios.get("https://pawkie-server.vercel.app/api/missing-pet"),
+          axios.get("https://pawkie-server.vercel.app/users"),
+        ]);
 
-        // Count the total posts
-        const totalAdoptions = adoptionRes.data.length;
-        const totalMissing = missingRes.data.length;
-
-        // Combine data to calculate posts over time (example logic)
-        const postsOverTime = []; // you can replace this with actual logic if needed
+        const usersData = usersRes.data;
+        const doctorsCount = usersData.filter(user => user.role === "doctor").length;
+        const usersCount = usersData.filter(user => !user.role || user.role === "user").length;
 
         setStats({
-          totalAdoptions,
-          totalMissing,
-          postsOverTime, // Placeholder for actual data logic
+          totalAdoptions: adoptionRes.data.length,
+          totalMissing: missingRes.data.length,
+          reviewsCount: reviewsRes.data.length,
+          doctorsCount,
+          usersCount,
+          adoptedPetsCount: adoptedPetsRes.data.length,
+          productsCount: productsRes.data.length,
+          rescuePetsCount: rescuePetsRes.data.length,
+          missingPetsCount: missingPetsRes.data.length,
+          postsOverTime: [], // Still placeholder
         });
       } catch (err) {
-        console.error("Error fetching posts:", err);
+        console.error("Error fetching data:", err);
       }
     };
 
@@ -59,6 +88,18 @@ const AdminDashboard = () => {
     <div className="p-8 space-y-8">
       <h1 className="text-3xl font-bold text-[#840B36]">Admin Dashboard</h1>
 
+      {/* Stats Boxes */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <StatBox label="Reviews" count={stats.reviewsCount} color="#5F040D" />
+        <StatBox label="Doctors" count={stats.doctorsCount} color="#9C3346" />
+        <StatBox label="Users" count={stats.usersCount} color="#5F040D" />
+        <StatBox label="Adopted Pets" count={stats.adoptedPetsCount} color="#FFE8DA" textColor="#5F040D" />
+        <StatBox label="Products" count={stats.productsCount} color="#FFD6BE" textColor="#5F040D" />
+        <StatBox label="Rescue Pets" count={stats.rescuePetsCount} color="#5F040D" />
+        <StatBox label="Missing Pets" count={stats.missingPetsCount} color="#9C3346" />
+      </div>
+
+      {/* Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Pie Chart */}
         <div className="bg-white rounded-2xl shadow p-6">
@@ -103,5 +144,12 @@ const AdminDashboard = () => {
     </div>
   );
 };
+
+const StatBox = ({ label, count, color, textColor = "#FFFFFF" }) => (
+  <div className="rounded-2xl shadow-lg p-6 text-center" style={{ backgroundColor: color, color: textColor }}>
+    <h3 className="text-lg font-semibold mb-2">{label}</h3>
+    <p className="text-3xl font-bold">{count}</p>
+  </div>
+);
 
 export default AdminDashboard;

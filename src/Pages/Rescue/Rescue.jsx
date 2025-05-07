@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
-import RescueFeed from "../Rescue/RescueFeed"; // Import Feed component
-
+import RescueFeed from "../Rescue/RescueFeed";
 import SparkleEffect from "../Shared/SparklelEffect/SparkleEffect";
 import { Link } from "react-router-dom";
-import ChatBotButton from "../Component/ChatBot/ChatBotButton";
+import ChatBotButton from '../Component/ChatBot/ChatBotButton';
+import ChatWindow from '../Component/ChatBot/ChatWindow';
+import Swal from "sweetalert2";
 
 const Rescue = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -14,23 +14,20 @@ const Rescue = () => {
 
   const [petData, setPetData] = useState({ details: "", image: null });
   const [imagePreview, setImagePreview] = useState(null);
-  const [posts, setPosts] = useState([]); // Store posts here
+  const [posts, setPosts] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle form input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPetData({ ...petData, [name]: value });
   };
 
-  // Handle file input change and preview the image
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setPetData({ ...petData, image: file });
     setImagePreview(URL.createObjectURL(file));
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -40,30 +37,32 @@ const Rescue = () => {
     formData.append("image", petData.image);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/rescue-pet", formData, {
+      const response = await axios.post("https://pawkie-server.vercel.app/api/rescue-pet", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      // Add the new post to the existing posts
       setPosts((prevPosts) => [response.data.post, ...prevPosts]);
 
-      // Reset the form data
       setPetData({ details: "", image: null });
       setImagePreview(null);
       setIsSubmitting(false);
 
-      alert("Post submitted!");
+      Swal.fire({
+        icon: "success",
+        title: "Post submitted!",
+        text: "Your rescue report has been posted successfully.",
+        confirmButtonColor: "#BA6C7D"
+      });
     } catch (error) {
       console.error("Error submitting post:", error);
       setIsSubmitting(false);
     }
   };
 
-  // Fetch posts when the component mounts
   useEffect(() => {
-    axios.get("http://localhost:5000/api/rescue-posts")
+    axios.get("https://pawkie-server.vercel.app/api/rescue-posts")
       .then((res) => setPosts(res.data))
       .catch((err) => console.error("Fetch error:", err));
   }, []);
@@ -71,7 +70,6 @@ const Rescue = () => {
   return (
     <div>
       <div className="relative bg-gradient-to-r from-[#FFE8DA] via-[#FFF0EA] to-[#FFE8DA] py-16 px-6 lg:px-20 text-center overflow-hidden shadow-inner">
-        {/* Floating paw prints for subtle motion */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div className="animate-pulse absolute top-4 left-10 text-[#F4B7A8] text-4xl">🐾</div>
           <div className="animate-pulse absolute top-12 right-12 text-[#F4B7A8] text-3xl">🐾</div>
@@ -84,25 +82,20 @@ const Rescue = () => {
         <p className="relative z-10 text-xl text-[#BA6C7D] max-w-3xl mx-auto leading-relaxed">
           Every paw print tells a story. Browse our latest rescue reports and help spread the word to reunite families with their beloved pets.
         </p>
-        <Link to={'/dashboard/userRescue'}
-          type="button"
-          // Replace this with your function
+        <Link
+          to={'/dashboard/userRescue'}
           className="mt-6 inline-flex items-center space-x-2 bg-[#BA6C7D] hover:bg-[#840B36] text-white font-semibold px-6 py-3 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
         >
           <span className="text-lg">🐶 Post for Rescue</span>
         </Link>
-
       </div>
 
-
-      {/* Feed Section */}
       <div className="mt-10">
-        <RescueFeed posts={posts} /> {/* Pass posts as a prop to Feed */}
+        <RescueFeed posts={posts} />
       </div>
 
-      Chatbot
-    <ChatBotButton toggleChat={toggleChat} />
-    {isChatOpen && <ChatWindow closeChat={toggleChat} />}
+      <ChatBotButton toggleChat={toggleChat} />
+      {isChatOpen && <ChatWindow closeChat={toggleChat} />}
     </div>
   );
 };

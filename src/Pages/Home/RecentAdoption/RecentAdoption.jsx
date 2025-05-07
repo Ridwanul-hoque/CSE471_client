@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+// import paw1 from '../../../src/assets/paw2.png'
+// import paw2 from '../../../src/assets/paw.png'
+import paw1 from '../../../../src/assets/paw2.png'
+import paw2 from '../../../../src/assets/paw.png'
 
 const RecentAdoptions = () => {
   const [recentPets, setRecentPets] = useState([]);
@@ -7,7 +11,7 @@ const RecentAdoptions = () => {
   useEffect(() => {
     const fetchRecentPets = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/adopt");
+        const res = await fetch("https://pawkie-server.vercel.app/api/adopt");
         const data = await res.json();
 
         // Sort by createdAt descending and take 3
@@ -25,7 +29,7 @@ const RecentAdoptions = () => {
   }, []);
 
   const getImageUrl = (url) => {
-    return url.startsWith("http") ? url : `http://localhost:5000${url}`;
+    return url.startsWith("http") ? url : `https://pawkie-server.vercel.app${url}`;
   };
 
   if (recentPets.length === 0) return null;
@@ -34,13 +38,13 @@ const RecentAdoptions = () => {
     <div className="max-w-6xl mx-auto px-6 py-16">
       <h2 className="text-3xl font-bold text-center text-[#840B36] mb-10">
         <img 
-          src="src/assets/paw2.png" 
+          src={paw1}
           alt="Paw" 
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
         />
         Recently Added for Adoption
         <img 
-          src="src/assets/paw.png" 
+          src={paw2} 
           alt="Paw" 
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 ml-5"
         />
