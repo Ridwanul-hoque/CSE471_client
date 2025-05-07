@@ -62,7 +62,7 @@ npm start
 ```
 
 Open your browser and visit:
-🔗 [Pawkie](https://pawkie-ee41a.web.app/vet-profiles)
+🔗 [Pawkie](https://pawkie-ee41a.web.app/)
 
 ---
 
