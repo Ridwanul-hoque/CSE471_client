@@ -24,7 +24,7 @@ const DoctorVideoCall = () => {
       const token = localStorage.getItem("access-token"); // If your API is protected
       const user = JSON.parse(localStorage.getItem("user")); // Assuming user info is stored here
   
-      const response = await fetch("http://localhost:5000/api/prescriptions", {
+      const response = await fetch("https://pawkie-server.vercel.app/api/prescriptions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

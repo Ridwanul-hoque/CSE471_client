@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProviders';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-
+import registeration from '../../../src/assets/icon.png'
 
 
 const Registration = () => {
@@ -45,7 +45,7 @@ const Registration = () => {
                                     image: imageUrl,
                                 };
     
-                                fetch('http://localhost:5000/users', {
+                                fetch('https://pawkie-server.vercel.app/users', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(userInfo),
@@ -76,7 +76,7 @@ const Registration = () => {
             <div className="w-full max-w-4xl bg-white/10 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl p-8 md:flex md:items-center md:justify-between">
                 <div className="hidden md:flex md:flex-col md:items-center md:justify-center w-1/2 text-center">
                     <img 
-                        src="src/assets/icon.png" 
+                        src={registeration}
                         alt="Logo" 
                         className="h-12 md:h-40 mb-4"
                     />

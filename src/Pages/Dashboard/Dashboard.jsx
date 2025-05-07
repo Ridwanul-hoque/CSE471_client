@@ -208,6 +208,18 @@ const Dashboard = () => {
                   <VscArchive className="text-xl" /> <span>Missing Datas</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="/dashboard/review"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#ffffff14] hover:shadow-lg ${
+                      isActive ? 'bg-[#ffffff20] shadow-md text-[#FFD3DB]' : ''
+                    }`
+                  }
+                >
+                  <VscPreview className="text-xl" /> <span>Add Review</span>
+                </NavLink>
+              </li>
               
               {/* <li>
                 <NavLink

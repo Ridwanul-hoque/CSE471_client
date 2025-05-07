@@ -7,7 +7,7 @@ const AdoptionApproval = () => {
 
   const fetchPets = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/adoptedPets');
+      const res = await axios.get('https://pawkie-server.vercel.app/api/adoptedPets');
       setPets(res.data);
     } catch (error) {
       console.error('Error fetching pets:', error);
@@ -20,7 +20,7 @@ const AdoptionApproval = () => {
 
   const handleAccept = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/adoptedPets/${id}`, { status: true });
+      await axios.patch(`https://pawkie-server.vercel.app/api/adoptedPets/${id}`, { status: true });
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -45,7 +45,7 @@ const AdoptionApproval = () => {
       confirmButtonText: 'Yes, reject it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/api/adoptedPets/${id}`).then(() => {
+        axios.delete(`https://pawkie-server.vercel.app/api/adoptedPets/${id}`).then(() => {
           Swal.fire('Rejected!', 'The request has been deleted.', 'success');
           fetchPets();
         });

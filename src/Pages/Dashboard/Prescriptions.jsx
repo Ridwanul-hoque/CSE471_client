@@ -7,7 +7,7 @@ const UserPrescriptions = () => {
     const fetchPrescriptions = async () => {
       try {
         const token = localStorage.getItem("access-token");
-        const response = await fetch("http://localhost:5000/api/prescriptions", {
+        const response = await fetch("https://pawkie-server.vercel.app/api/prescriptions", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

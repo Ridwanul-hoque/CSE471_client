@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
-
+import Swal from 'sweetalert2';
 
 const AdoptForm = () => {
   const { id } = useParams();
@@ -12,11 +12,11 @@ const AdoptForm = () => {
     adopterAddress: '',
   });
   const navigate = useNavigate();
-  
+
   const { user } = useAuth(); // Access the logged-in user's information
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/adopt`)
+    fetch(`https://pawkie-server.vercel.app/api/adopt`)
       .then(res => res.json())
       .then(data => {
         const found = data.find(p => p._id === id);
@@ -31,7 +31,6 @@ const AdoptForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Remove _id from pet before sending
     const { _id, ...petWithoutId } = pet;
 
     const adoptedPet = {
@@ -40,20 +39,28 @@ const AdoptForm = () => {
       adopterPhone: form.adopterPhone,
       adopterAddress: form.adopterAddress,
       status: false,
-      adopterEmail: user?.email // Add the logged-in user's email to the submission
+      adopterEmail: user?.email
     };
 
-    const res = await fetch('http://localhost:5000/api/adoptedPets', {
+    const res = await fetch('https://pawkie-server.vercel.app/api/adoptedPets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(adoptedPet),
     });
 
     if (res.ok) {
-      alert('Adoption submitted successfully!');
+      Swal.fire({
+        icon: 'success',
+        title: 'Adoption Successful',
+        text: 'Adoption submitted successfully!'
+      });
       navigate('/adoption');
     } else {
-      alert('Submission failed.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Failed',
+        text: 'Something went wrong while submitting.'
+      });
     }
   };
 

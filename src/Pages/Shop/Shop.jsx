@@ -66,7 +66,7 @@ const Shop = () => {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:5000/api/products', {
+            const response = await axios.get('https://pawkie-server.vercel.app/api/products', {
                 params: {
                     inStock: 'true',
                     ...(selectedCategory && { category: selectedCategory })
@@ -92,7 +92,7 @@ const Shop = () => {
                 return;
             }
 
-            const response = await axios.get('http://localhost:5000/api/orders', {
+            const response = await axios.get('https://pawkie-server.vercel.app/api/orders', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -275,7 +275,7 @@ const Shop = () => {
                 paymentDetails: paymentDetails
             };
 
-            const response = await axios.post('http://localhost:5000/api/orders', orderData, {
+            const response = await axios.post('https://pawkie-server.vercel.app/api/orders', orderData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

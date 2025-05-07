@@ -18,7 +18,7 @@
 // //       try {
 // //         const token = localStorage.getItem("access-token");
 
-// //         const res = await fetch(`http://localhost:5000/api/queue?doctorId=dr-john`, {
+// //         const res = await fetch(`https://pawkie-server.vercel.app/api/queue?doctorId=dr-john`, {
 // //           headers: {
 // //             Authorization: `Bearer ${token}`
 // //           }
@@ -49,7 +49,7 @@
 // //     const token = localStorage.getItem("access-token");
 
 // //     try {
-// //       const res = await fetch("http://localhost:5000/api/queue/accept", {
+// //       const res = await fetch("https://pawkie-server.vercel.app/api/queue/accept", {
 // //         method: "POST",
 // //         headers: {
 // //           "Content-Type": "application/json",
@@ -177,7 +177,7 @@
   
 
 // //   useEffect(() => {
-// //     fetch('http://localhost:5000/api/queue')
+// //     fetch('https://pawkie-server.vercel.app/api/queue')
 // //       .then(res => res.json())
 // //       .then(data => {
 // //         const filtered = data.filter(item => item.doctorEmail === user?.email);
@@ -198,14 +198,14 @@
 
 // //     try {
 // //       // Send prescription
-// //       await fetch('http://localhost:5000/api/prescriptions', {
+// //       await fetch('https://pawkie-server.vercel.app/api/prescriptions', {
 // //         method: 'POST',
 // //         headers: { 'Content-Type': 'application/json' },
 // //         body: JSON.stringify(prescriptionData)
 // //       });
 
 // //       // Delete from queue
-// //       await fetch(`http://localhost:5000/api/queue/${selectedCase._id}`, {
+// //       await fetch(`https://pawkie-server.vercel.app/api/queue/${selectedCase._id}`, {
 // //         method: 'DELETE'
 // //       });
 
@@ -298,7 +298,7 @@
   
 
 // //   useEffect(() => {
-// //     fetch('http://localhost:5000/api/queue')
+// //     fetch('https://pawkie-server.vercel.app/api/queue')
 // //       .then(res => res.json())
 // //       .then(data => {
 // //         const filtered = data.filter(item => item.doctorEmail === user?.email);
@@ -319,14 +319,14 @@
 
 // //     try {
 // //       // Send prescription
-// //       await fetch('http://localhost:5000/api/prescriptions', {
+// //       await fetch('https://pawkie-server.vercel.app/api/prescriptions', {
 // //         method: 'POST',
 // //         headers: { 'Content-Type': 'application/json' },
 // //         body: JSON.stringify(prescriptionData)
 // //       });
 
 // //       // Delete from queue
-// //       await fetch(`http://localhost:5000/api/queue/${selectedCase._id}`, {
+// //       await fetch(`https://pawkie-server.vercel.app/api/queue/${selectedCase._id}`, {
 // //         method: 'DELETE'
 // //       });
 
@@ -453,7 +453,7 @@
 //   const [videoLink, setVideoLink] = useState('');
 
 //   useEffect(() => {
-//     fetch('http://localhost:5000/api/queue')
+//     fetch('https://pawkie-server.vercel.app/api/queue')
 //       .then(res => res.json())
 //       .then(data => {
 //         const filtered = data.filter(item => item.doctorEmail === user?.email);
@@ -474,14 +474,14 @@
 
 //     try {
 //       // Send prescription
-//       await fetch('http://localhost:5000/api/prescriptions', {
+//       await fetch('https://pawkie-server.vercel.app/api/prescriptions', {
 //         method: 'POST',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify(prescriptionData)
 //       });
 
 //       // Delete from queue
-//       await fetch(`http://localhost:5000/api/queue/${selectedCase._id}`, {
+//       await fetch(`https://pawkie-server.vercel.app/api/queue/${selectedCase._id}`, {
 //         method: 'DELETE'
 //       });
 
@@ -499,7 +499,7 @@
 
 //     try {
 //       // Send notification or update the case with the video link
-//       await fetch('http://localhost:5000/api/notifications', {
+//       await fetch('https://pawkie-server.vercel.app/api/notifications', {
 //         method: 'POST',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify({
@@ -643,7 +643,7 @@ const DoctorProfile = ({ doctor }) => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/doctors/${doctor.email}`, formData);
+      const response = await axios.put(`https://pawkie-server.vercel.app/doctors/${doctor.email}`, formData);
       alert('Doctor info updated successfully!');
       setIsEditing(false);
       // Optionally refresh or pass updated data back to parent component

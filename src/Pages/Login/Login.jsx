@@ -3,6 +3,7 @@ import { AuthContext } from '../../Providers/AuthProviders';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import Swal from 'sweetalert2';
+import login from "../../../src/assets/icon.png"
 
 const Login = () => {
     const { signIn } = useContext(AuthContext);
@@ -41,7 +42,7 @@ const Login = () => {
 
             <div className="hidden md:flex md:flex-col md:items-center md:justify-center w-1/2 text-center">
             <img 
-            src="src/assets/icon.png" 
+            src={login} 
             alt="Logo" 
             className="h-12 md:h-40 mb-4"
             />

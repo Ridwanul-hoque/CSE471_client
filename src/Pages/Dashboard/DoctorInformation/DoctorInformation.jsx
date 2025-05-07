@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import axios from 'axios';
 import DoctorProfile from '../../Medical/DoctorProfile';
+import Swal from 'sweetalert2';
 
 const DoctorInformation = () => {
   const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -19,11 +20,10 @@ const DoctorInformation = () => {
   const [existingDoctor, setExistingDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch doctor data based on user email
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/doctors');
+        const response = await axios.get('https://pawkie-server.vercel.app/doctors');
         const doctor = response.data.find(d => d.email === user?.email);
         setExistingDoctor(doctor || null);
       } catch (err) {
@@ -64,51 +64,70 @@ const DoctorInformation = () => {
         email: user?.email,
       };
 
-      await axios.post('http://localhost:5000/doctors', doctorInfo);
-      alert('Doctor info added successfully!');
-      setExistingDoctor(doctorInfo); // Prevent resubmission
+      await axios.post('https://pawkie-server.vercel.app/doctors', doctorInfo);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Doctor Info Added',
+        text: 'Doctor info added successfully!'
+      });
+
+      setExistingDoctor(doctorInfo);
     } catch (error) {
       console.error('Error uploading data:', error);
-      alert('Something went wrong');
+      Swal.fire({
+        icon: 'error',
+        title: 'Upload Failed',
+        text: 'Something went wrong while submitting the doctor info.'
+      });
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="text-center text-[#5F040D] font-medium">Loading...</p>;
 
   return (
-    <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-md">
+    <div className="p-6 max-w-2xl mx-auto bg-[#FFE8DA] shadow-lg rounded-2xl border border-[#FFD6BE]">
       {!existingDoctor ? (
         <>
-          <h2 className="text-xl font-bold mb-4">Add Doctor Information</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-2">
-              <label className="block">Name:</label>
-              <input type="text" name="name" className="border w-full p-2" onChange={handleChange} required />
+          <h2 className="text-2xl font-bold text-[#5F040D] mb-6 text-center">Add Doctor Information</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {[
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Education Institution', name: 'institution', type: 'text' },
+              { label: 'Graduation Year', name: 'graduationYear', type: 'number' },
+              { label: 'Experience (Years)', name: 'experience', type: 'number' },
+            ].map(({ label, name, type }) => (
+              <div key={name}>
+                <label className="block text-[#5F040D] font-semibold">{label}:</label>
+                <input
+                  type={type}
+                  name={name}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 rounded border border-[#FFD6BE] focus:outline-none focus:ring-2 focus:ring-[#9C3346]"
+                />
+              </div>
+            ))}
+
+            <div>
+              <label className="block text-[#5F040D] font-semibold">Doctor Image:</label>
+              <input
+                type="file"
+                name="image"
+                onChange={handleChange}
+                required
+                className="w-full p-2 rounded border border-[#FFD6BE] bg-white"
+              />
             </div>
 
-            <div className="mb-2">
-              <label className="block">Education Institution:</label>
-              <input type="text" name="institution" className="border w-full p-2" onChange={handleChange} required />
+            <div className="text-center">
+              <button
+                type="submit"
+                className="bg-[#5F040D] hover:bg-[#9C3346] text-white px-6 py-2 rounded-full shadow-md transition-all"
+              >
+                Submit
+              </button>
             </div>
-
-            <div className="mb-2">
-              <label className="block">Graduation Year:</label>
-              <input type="number" name="graduationYear" className="border w-full p-2" onChange={handleChange} required />
-            </div>
-
-            <div className="mb-2">
-              <label className="block">Experience (Years):</label>
-              <input type="number" name="experience" className="border w-full p-2" onChange={handleChange} required />
-            </div>
-
-            <div className="mb-2">
-              <label className="block">Doctor Image:</label>
-              <input type="file" name="image" className="border w-full p-2" onChange={handleChange} required />
-            </div>
-
-            <button type="submit" className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-              Submit
-            </button>
           </form>
         </>
       ) : (

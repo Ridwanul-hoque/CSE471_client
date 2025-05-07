@@ -2,6 +2,11 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../../Providers/AuthProviders";
 
+// import paw1 from '../../../src/assets/paw2.png'
+// import paw2 from '../../../src/assets/paw.png'
+import paw1 from '../../../../src/assets/paw2.png'
+import paw2 from '../../../../src/assets/paw.png'
+
 const Feed = ({ posts }) => {
   const {user} = useContext(AuthContext)
   const [commentText, setCommentText] = useState({});
@@ -17,7 +22,7 @@ const Feed = ({ posts }) => {
     if (!text) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/missing-posts/${postId}/comments`, {
+      await axios.post(`https://pawkie-server.vercel.app/api/missing-posts/${postId}/comments`, {
         userName: "Anonymous",
         text: text,
       });
@@ -40,13 +45,13 @@ const Feed = ({ posts }) => {
     <div className="max-w-6xl mx-auto px-6 py-12 text-[#000000]">
       <h1 className="text-4xl font-bold text-[#840B36] text-center mb-20">
         <img 
-          src="src/assets/paw2.png" 
+        src={paw1}
           alt="Paw" 
           className="h-12 inline-block -mt-2 mr-5"
         />
         All Missing Posts
         <img 
-          src="src/assets/paw.png" 
+          src={paw2} 
           alt="Paw" 
           className="h-12 inline-block -mt-2 ml-5"
         />

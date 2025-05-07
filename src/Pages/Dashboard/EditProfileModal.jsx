@@ -31,7 +31,7 @@
 //             await updateUserProfile(formData.name, formData.image);
 
 //             // Update in MongoDB
-//             const response = await fetch(`http://localhost:5000/users/${userData.email}`, {
+//             const response = await fetch(`https://pawkie-server.vercel.app/users/${userData.email}`, {
 //                 method: 'PUT',
 //                 headers: {
 //                     'Content-Type': 'application/json',
@@ -46,7 +46,7 @@
 //                 throw new Error('Failed to update profile');
 //             }
 
-//             const updatedUserResponse = await fetch(`http://localhost:5000/users/${userData.email}`);
+//             const updatedUserResponse = await fetch(`https://pawkie-server.vercel.app/users/${userData.email}`);
 //             const updatedUserData = await updatedUserResponse.json();
 
 //             onUpdateSuccess(updatedUserData);

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import paw1 from '../../../src/assets/paw2.png'
+import paw2 from '../../../src/assets/paw.png'
 
 const AllAdoptions = ({ pets }) => {
   const [selectedPet, setSelectedPet] = useState(null);
@@ -26,13 +28,13 @@ const AllAdoptions = ({ pets }) => {
     <div className="max-w-6xl mx-auto px-6 py-12">
       <h2 className="text-5xl font-bold text-center text-[#840B36] mb-10">
         <img
-          src="src/assets/paw2.png"
+          src={paw1}
           alt="Paw"
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
         />
         All Adoption Posts
         <img
-          src="src/assets/paw.png"
+          src={paw2}
           alt="Paw"
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 ml-5"
         />

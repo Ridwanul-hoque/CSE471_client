@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../Providers/AuthProviders";
+import paw1 from '../../../src/assets/paw2.png'
+import paw2 from '../../../src/assets/paw.png'
 
 const RescueFeed = () => {
   const [posts, setPosts] = useState([]);
@@ -12,7 +14,7 @@ const RescueFeed = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/rescue-posts");
+        const response = await axios.get("https://pawkie-server.vercel.app/api/rescue-posts");
         setPosts(response.data);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
@@ -32,7 +34,7 @@ const RescueFeed = () => {
     if (!text) return;
 
     try {
-      await axios.post(`http://localhost:5000/api/rescue-posts/${postId}/comments`, {
+      await axios.post(`https://pawkie-server.vercel.app/api/rescue-posts/${postId}/comments`, {
         userName: "User Name", // Replace with actual user data
         text,
       });
@@ -40,7 +42,7 @@ const RescueFeed = () => {
       setCommentText({ ...commentText, [postId]: "" });
 
       // Refetch posts to update comments
-      const response = await axios.get("http://localhost:5000/api/rescue-posts");
+      const response = await axios.get("https://pawkie-server.vercel.app/api/rescue-posts");
       setPosts(response.data);
     } catch (error) {
       console.error("Failed to post comment:", error);
@@ -55,13 +57,13 @@ const RescueFeed = () => {
     <div className="max-w-6xl mx-auto px-6 py-12 text-[#000000]">
       <h1 className="text-4xl font-bold text-[#840B36] text-center mb-20">
         <img 
-          src="src/assets/paw2.png" 
+          src={paw1}
           alt="Paw" 
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
         />
         All Rescue Posts
         <img 
-          src="src/assets/paw.png" 
+          src={paw2} 
           alt="Paw" 
           className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 ml-5"
         />
