@@ -4,6 +4,7 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 import logo from "../../../assets/logo_2.png"
 import useAdmin from '../../../Hooks/useAdmin';
 import useDoctor from '../../../Hooks/useDoctor';
+import { LogOut, LayoutDashboard } from 'lucide-react';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
@@ -92,9 +93,9 @@ const Navbar = () => {
 
                         {/* Dropdown menu */}
                         <div
-                            className="absolute right-0 mt-2 w-40 bg-[#49312C] rounded-lg shadow-lg opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"
+                            className="absolute right-0 mt-2 w-44 rounded-xl shadow-xl backdrop-blur-md bg-[#49312cb0] border border-white/10 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 z-20"
                         >
-                            <ul className="text-[#F5E3D9]">
+                            <ul className="text-[#F5E3D9] py-2">
                                 <li>
                                     <Link
                                         to={
@@ -104,16 +105,18 @@ const Navbar = () => {
                                                     ? '/dashboard/doctorProfile'
                                                     : '/dashboard/user'
                                         }
-                                        className="block px-4 py-2 hover:bg-[#CD346C] transition"
+                                        className="flex items-center gap-3 px-4 py-2 hover:bg-[#CD346C] hover:text-white transition-colors duration-200"
                                     >
+                                        <LayoutDashboard className="w-5 h-5" />
                                         Dashboard
                                     </Link>
                                 </li>
                                 <li>
                                     <button
                                         onClick={handlelogout}
-                                        className="block w-full text-left px-4 py-2 hover:bg-[#CD346C] transition"
+                                        className="flex items-center gap-3 w-full text-left px-4 py-2 hover:bg-[#CD346C] hover:text-white transition-colors duration-200"
                                     >
+                                        <LogOut className="w-5 h-5" />
                                         Logout
                                     </button>
                                 </li>

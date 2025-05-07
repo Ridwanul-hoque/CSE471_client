@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SparkleEffect from '../../Shared/SparklelEffect/SparkleEffect';
 import axios from 'axios';
+import { AuthContext } from '../../../Providers/AuthProviders';
 
 const MissingPets = () => {
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const { user } = useContext(AuthContext)
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 
     const toggleChat = () => setIsChatOpen(!isChatOpen);
 
@@ -30,21 +35,24 @@ const MissingPets = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        const formData = new FormData();
-        formData.append("description", petData.description);
-        formData.append("image", petData.image);
-
         try {
-            const response = await axios.post("http://localhost:5000/api/missing-pet", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+            // 1. Upload image to imgbb
+            const imageFormData = new FormData();
+            imageFormData.append('image', petData.image);
+
+            const imgbbResponse = await axios.post(image_hosting_api, imageFormData);
+            const imageUrl = imgbbResponse.data.data.url;
+
+            // 2. Send post data to your server
+            const response = await axios.post("http://localhost:5000/api/missing-pet", {
+                description: petData.description,
+                image: imageUrl,
+                userName: user?.displayName,
+                userEmail: user?.email,
+                userImage: user?.photoURL,
             });
 
-            // Add the new post to the existing posts
             setPosts((prevPosts) => [response.data.post, ...prevPosts]);
-
-            // Reset the form data
             setPetData({ description: "", image: null });
             setImagePreview(null);
             setIsSubmitting(false);
@@ -55,6 +63,7 @@ const MissingPets = () => {
             setIsSubmitting(false);
         }
     };
+
 
     // Fetch posts when the component mounts
     useEffect(() => {

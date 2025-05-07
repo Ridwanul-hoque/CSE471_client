@@ -60,20 +60,20 @@ const AllAdoptions = ({ pets }) => {
             {pet.images?.length > 1 ? (
               <div className="flex h-60 w-full">
                 <img
-                  src={`http://localhost:5000${pet.images[0]}`}
+                  src={pet.images[0]}
                   alt="Main"
                   className="h-full w-3/5 object-cover cursor-pointer"
-                  onClick={() => setZoomedImage(`http://localhost:5000${pet.images[0]}`)}
+                  onClick={() => setZoomedImage(pet.images[0])}
                 />
                 <div className="flex flex-col w-2/5 p-1 gap-1">
                   {pet.images.slice(1, 4).map((img, index, arr) => (
                     <img
                       key={index}
-                      src={`http://localhost:5000${img}`}
+                      src={img}
                       alt={`Side ${index}`}
                       className="w-full object-cover cursor-pointer rounded flex-1"
                       style={{ minHeight: `calc(100% / ${arr.length})` }}
-                      onClick={() => setZoomedImage(`http://localhost:5000${img}`)}
+                      onClick={() => setZoomedImage(img)}
                     />
                   ))}
                 </div>
@@ -81,10 +81,10 @@ const AllAdoptions = ({ pets }) => {
             ) : (
               <div className="h-60 w-full">
                 <img
-                  src={`http://localhost:5000${pet.images[0]}`}
+                  src={pet.images[0]}
                   alt="Full"
                   className="h-full w-full object-cover cursor-pointer"
-                  onClick={() => setZoomedImage(`http://localhost:5000${pet.images[0]}`)}
+                  onClick={() => setZoomedImage(pet.images[0])}
                 />
               </div>
             )}
@@ -140,10 +140,10 @@ const AllAdoptions = ({ pets }) => {
               {selectedPet.images?.map((img, i) => (
                 <img
                   key={i}
-                  src={`http://localhost:5000${img}`}
+                  src={img}
                   alt={`Pet ${i}`}
                   className="w-34 h-25 object-cover rounded-md border hover:scale-105 transition cursor-pointer"
-                  onClick={() => setZoomedImage(`http://localhost:5000${img}`)}
+                  onClick={() => setZoomedImage(img)}
                 />
               ))}
               <div>
@@ -184,8 +184,6 @@ const AllAdoptions = ({ pets }) => {
             alt="Zoomed"
             className="max-w-full max-h-[90vh] rounded shadow-lg border-4 border-white"
           />
-
-
         </div>
       )}
     </div>

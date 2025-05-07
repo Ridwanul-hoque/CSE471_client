@@ -5,10 +5,11 @@ import useDoctor from '../../Hooks/useDoctor';
 
 import { FaAdjust, FaHome, FaInfo, FaUser } from 'react-icons/fa';
 import { IoIosContact } from 'react-icons/io';
-import { MdOutlineViewInAr, MdApproval } from 'react-icons/md';
+import { MdOutlineViewInAr, MdApproval, MdAddToQueue } from 'react-icons/md';
 import { GrContactInfo } from 'react-icons/gr';
 import { CiSquareQuestion } from 'react-icons/ci';
-import { VscPreview } from 'react-icons/vsc';
+import { VscAdd, VscArchive, VscDiffAdded, VscPreview } from 'react-icons/vsc';
+import { TbRelationOneToMany } from "react-icons/tb";
 
 const Dashboard = () => {
   const [isAdmin] = useAdmin();
@@ -54,7 +55,7 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <FaUser className="text-xl" /> <span>Manage Products</span>
+                  <TbRelationOneToMany className="text-xl" /> <span>Manage Products</span>
                 </NavLink>
               </li>
               <li>
@@ -93,7 +94,7 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <FaUser className="text-xl" /> <span>Doctor Profile</span>
+                  <MdAddToQueue className="text-xl" /> <span>Patient Queue</span>
                 </NavLink>
               </li>
               <li>
@@ -108,7 +109,7 @@ const Dashboard = () => {
                   <FaInfo className="text-xl" /> <span>Add Your Information</span>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/dashboard/doctor"
                   className={({ isActive }) =>
@@ -119,7 +120,7 @@ const Dashboard = () => {
                 >
                   <FaInfo className="text-xl" /> <span>Add Your Information</span>
                 </NavLink>
-              </li>
+              </li> */}
             </>
           ) : (
             <>
@@ -156,7 +157,19 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <MdOutlineViewInAr className="text-xl" /> <span>Posts Rescue</span>
+                  <VscDiffAdded className="text-xl" /> <span>Posts Rescue</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/rescueData"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#ffffff14] hover:shadow-lg ${
+                      isActive ? 'bg-[#ffffff20] shadow-md text-[#FFD3DB]' : ''
+                    }`
+                  }
+                >
+                  <MdOutlineViewInAr className="text-xl" /> <span>Rescue Datas</span>
                 </NavLink>
               </li>
               <li>
@@ -180,10 +193,23 @@ const Dashboard = () => {
                     }`
                   }
                 >
-                  <VscPreview className="text-xl" /> <span>Add Missing Post</span>
+                  <VscDiffAdded className="text-xl" /> <span>Missing Post</span>
                 </NavLink>
               </li>
               <li>
+                <NavLink
+                  to="/dashboard/missingInfo"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-5 py-3 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#ffffff14] hover:shadow-lg ${
+                      isActive ? 'bg-[#ffffff20] shadow-md text-[#FFD3DB]' : ''
+                    }`
+                  }
+                >
+                  <VscArchive className="text-xl" /> <span>Missing Datas</span>
+                </NavLink>
+              </li>
+              
+              {/* <li>
                 <NavLink
                   to="/dashboard/prescriptions"
                   className={({ isActive }) =>
@@ -194,7 +220,7 @@ const Dashboard = () => {
                 >
                   <VscPreview className="text-xl" /> <span>Prescription</span>
                 </NavLink>
-              </li>
+              </li> */}
             </>
           )}
 

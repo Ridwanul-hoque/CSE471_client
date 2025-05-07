@@ -8,6 +8,7 @@ import SparkleEffect from '../Shared/SparklelEffect/SparkleEffect';
 import PostAdoptionForm from '../PostAdoptionForm/PostAdoptionForm';
 import DecorativeWave from '../Component/Decoration/DecorativeWave';
 import AllAdoptions from '../AllAdoptions/AllAdoptions'
+import ChatBotButton from '../Component/ChatBot/ChatBotButton';
 // import ChatBotButton from '../../Pages/ChatBot/ChatBotButton';
 // import ChatWindow from '../../Pages/ChatBot/ChatWindow';
 
@@ -91,9 +92,9 @@ const Adoption = () => {
         <AllAdoptions pets={pets} />
       </div>
       
-      {/* Chatbot
+      Chatbot
       <ChatBotButton toggleChat={toggleChat} />
-      {isChatOpen && <ChatWindow closeChat={toggleChat} />} */}
+      {isChatOpen && <ChatWindow closeChat={toggleChat} />}
     </>
   );
 };

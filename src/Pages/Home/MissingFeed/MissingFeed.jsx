@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Feed from "./Feed"; // Import Feed component
 import SparkleEffect from "../../Shared/SparklelEffect/SparkleEffect";
+import { Link } from "react-router-dom";
+import ChatBotButton from "../../Component/ChatBot/ChatBotButton";
 // import ChatBotButton from '../../Pages/ChatBot/ChatBotButton';
 // import ChatWindow from '../../Pages/ChatBot/ChatWindow';
 
 const MissingFeed = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
-  
+
   const toggleChat = () => setIsChatOpen(!isChatOpen);
 
   const [petData, setPetData] = useState({ description: "", image: null });
@@ -69,17 +71,17 @@ const MissingFeed = () => {
 
   return (
     <div>
-    <div className="relative overflow-hidden">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#FFD6BE] via-[#FFE8DA] to-[#FFD6BE] py-30 px-6 lg:px-20 items-center justify-between text-center">
-        <SparkleEffect count={30} />
-        <h1 className="text-5xl font-bold text-[#840B36] mb-6">Help Find Missing Pets</h1>
-        <p className="text-xl text-[#BA6C7D] mb-8">
-          Join our community to help locate missing pets and reunite them with their families.
-        </p>
+      <div className="relative overflow-hidden">
+        {/* Hero Section */}
+        <div className="relative bg-gradient-to-r from-[#FFE8DA] via-[#FFF0EA] to-[#FFE8DA] py-16 px-6 lg:px-20 text-center overflow-hidden shadow-inner">
+          <SparkleEffect count={30} />
+          {/* <h1 className="text-5xl font-bold text-[#840B36] mb-6">Help Find Missing Pets</h1>
+          <p className="text-xl text-[#BA6C7D] mb-8">
+            Join our community to help locate missing pets and reunite them with their families.
+          </p> */}
 
-        {/* Post Creator */}
-        <div className="post-creator bg-white shadow-lg rounded-lg mx-auto max-w-xl ">
+          {/* Post Creator */}
+          {/* <div className="post-creator bg-white shadow-lg rounded-lg mx-auto max-w-xl ">
           <div className="post-header px- py-4 ">
             <h3 className="text-[#840B36] text-lg font-semibold">Create Missing Pet Report</h3>
           </div>
@@ -132,18 +134,41 @@ const MissingFeed = () => {
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
+         
+            {/* Floating paw prints for subtle motion */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              <div className="animate-pulse absolute top-4 left-10 text-[#F4B7A8] text-4xl">🐾</div>
+              <div className="animate-pulse absolute top-12 right-12 text-[#F4B7A8] text-3xl">🐾</div>
+              <div className="animate-pulse absolute bottom-10 left-20 text-[#F4B7A8] text-2xl">🐾</div>
+            </div>
+
+            <h2 className="relative z-10 text-5xl font-extrabold text-[#840B36] mb-4 drop-shadow-lg">
+              🐾 Help Find Missing Pets
+            </h2>
+            <p className="relative z-10 text-xl text-[#BA6C7D] max-w-3xl mx-auto leading-relaxed">
+              Join our community to help locate missing pets and reunite them with their families.
+            </p>
+            <Link to={'/dashboard/missingPets'}
+              type="button"
+              // Replace this with your function
+              className="mt-6 inline-flex items-center space-x-2 bg-[#BA6C7D] hover:bg-[#840B36] text-white font-semibold px-6 py-3 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none"
+            >
+              <span className="text-lg">🐶 Post for Missing Pets</span>
+            </Link>
+
+          </div>
+        
       </div>
-    </div>
 
-    {/* Feed Section */}
-    <div className="mt-10">
-      <Feed posts={posts} /> {/* Pass posts as a prop to Feed */}
-    </div>
+      {/* Feed Section */}
+      <div className="mt-10">
+        <Feed posts={posts} /> {/* Pass posts as a prop to Feed */}
+      </div>
 
-    {/* Chatbot */}
-    {/* <ChatBotButton toggleChat={toggleChat} />
-    {isChatOpen && <ChatWindow closeChat={toggleChat} />} */}
+      Chatbot 
+      <ChatBotButton toggleChat={toggleChat} />
+    {isChatOpen && <ChatWindow closeChat={toggleChat} />} 
     </div>
   );
 };

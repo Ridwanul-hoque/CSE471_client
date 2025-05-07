@@ -533,14 +533,14 @@ const Shop = () => {
                                 <button
                                     type="button"
                                     onClick={() => setCheckoutStep(0)}
-                                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                                    className="btn bg-[#CD346C] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition"
                                 >
                                     Back to Shipping
                                 </button>
 
                                 <button
                                     type="submit"
-                                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                                    className="btn bg-[#CD346C] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition"
                                     disabled={loading}
                                 >
                                     {loading ? 'Processing...' : 'Place Order'}
@@ -562,7 +562,7 @@ const Shop = () => {
                     <p>Your cart is empty</p>
                     <button
                         onClick={() => setShowCart(false)}
-                        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        className="mt-4 btn bg-[#CD346C] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition "
                     >
                         Continue Shopping
                     </button>
@@ -668,7 +668,7 @@ const Shop = () => {
                     <p>Please login to view your orders</p>
                     <button
                         onClick={() => setShowOrders(false)}
-                        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        className="mt-4 btn bg-[#CD346C] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition"
                     >
                         Browse Products
                     </button>
@@ -682,7 +682,7 @@ const Shop = () => {
                     <p>You haven't placed any orders yet</p>
                     <button
                         onClick={() => setShowOrders(false)}
-                        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                        className="mt-4 btn bg-[#CD346C] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition"
                     >
                         Browse Products
                     </button>
@@ -746,7 +746,7 @@ const Shop = () => {
 
                 <button
                     onClick={() => setShowOrders(false)}
-                    className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    className="mt-6 btn bg-[#CD346C] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition"
                 >
                     Back to Shop
                 </button>
@@ -788,7 +788,7 @@ const Shop = () => {
 
                             <button
                                 onClick={() => addToCart(product)}
-                                className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                                className="mt-3 w-full btn bg-[#92093b] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition"
                                 disabled={product.stockQuantity < 1}
                             >
                                 {product.stockQuantity < 1 ? 'Out of Stock' : 'Add to Cart'}
@@ -828,7 +828,7 @@ const Shop = () => {
 
         return (
             <>
-                <div className="mb-6 bg-white p-4 rounded shadow">
+                <div className="mb-6 bg-white p-4 rounded shadow max-w-[105rem] mx-auto">
                     <h2 className="text-xl font-semibold mb-4">Shop Products</h2>
 
                     {/* Category filter */}
@@ -836,7 +836,7 @@ const Shop = () => {
                         <div className="flex flex-wrap gap-2">
                             <button
                                 onClick={() => handleCategoryChange('')}
-                                className={`px-3 py-1 rounded ${selectedCategory === '' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+                                className={`px-3 py-1 rounded ${selectedCategory === '' ? 'btn bg-[#860736] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition' : 'bg-gray-200'
                                     }`}
                             >
                                 All
@@ -846,7 +846,7 @@ const Shop = () => {
                                 <button
                                     key={category}
                                     onClick={() => handleCategoryChange(category)}
-                                    className={`px-3 py-1 rounded ${selectedCategory === category ? 'bg-blue-600 text-white' : 'bg-gray-200'
+                                    className={`px-3 py-1 rounded ${selectedCategory === category ? 'btn bg-[#6d072c] text-[#F5E3D9] border-0 hover:bg-[#F6C7CF] hover:text-[#CD346C] transition' : 'bg-gray-200'
                                         }`}
                                 >
                                     {category}

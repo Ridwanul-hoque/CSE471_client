@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../../../Providers/AuthProviders";
 
 const Feed = ({ posts }) => {
+  const {user} = useContext(AuthContext)
   const [commentText, setCommentText] = useState({});
-  const [openComments, setOpenComments] = useState({}); // track which comment sections are open
+  const [openComments, setOpenComments] = useState({});
 
   const handleCommentChange = (e, postId) => {
     setCommentText({ ...commentText, [postId]: e.target.value });
@@ -11,7 +13,6 @@ const Feed = ({ posts }) => {
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
-
     const text = commentText[postId]?.trim();
     if (!text) return;
 
@@ -22,7 +23,7 @@ const Feed = ({ posts }) => {
       });
 
       setCommentText({ ...commentText, [postId]: "" });
-      window.location.reload(); // reload to see new comment
+      window.location.reload();
     } catch (error) {
       console.error("Failed to post comment:", error);
     }
@@ -41,13 +42,13 @@ const Feed = ({ posts }) => {
         <img 
           src="src/assets/paw2.png" 
           alt="Paw" 
-          className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
+          className="h-12 inline-block -mt-2 mr-5"
         />
         All Missing Posts
         <img 
           src="src/assets/paw.png" 
           alt="Paw" 
-          className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 ml-5"
+          className="h-12 inline-block -mt-2 ml-5"
         />
       </h1>
 
@@ -58,9 +59,8 @@ const Feed = ({ posts }) => {
               key={index}
               className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden border border-[#f5d5dd]"
             >
-              {/* Left Section - User & Content */}
+              {/* Left Section */}
               <div className="w-full md:w-2/3 p-6 flex flex-col justify-between">
-                {/* User Info */}
                 <div className="flex items-center mb-4">
                   <img
                     src={post.userImage || "https://via.placeholder.com/50"}
@@ -77,12 +77,10 @@ const Feed = ({ posts }) => {
                   </div>
                 </div>
 
-                {/* Description */}
-                <p className="text-[#333] text-xl font-semibold  leading-relaxed mb-4">
+                <p className="text-[#333] text-xl font-semibold mb-4">
                   {post.description}
                 </p>
 
-                {/* Toggle Comments Button */}
                 <button
                   onClick={() => toggleComments(post._id)}
                   className="cursor-pointer self-start text-sm text-[#BA6C7D] font-medium underline hover:text-[#840B36] mb-3"
@@ -90,7 +88,6 @@ const Feed = ({ posts }) => {
                   {openComments[post._id] ? "Hide Comments" : "View Comments"}
                 </button>
 
-                {/* Comments */}
                 {openComments[post._id] && (
                   <>
                     {post.comments?.length > 0 ? (
@@ -99,7 +96,7 @@ const Feed = ({ posts }) => {
                         {post.comments.map((comment, i) => (
                           <div key={i} className="text-sm text-gray-800 mb-2">
                             <span className="font-medium text-[#BA6C7D]">
-                              {comment.userName}:
+                              {post.userName}:
                             </span>{" "}
                             {comment.text}
                             <p className="text-xs text-gray-400">
@@ -112,7 +109,6 @@ const Feed = ({ posts }) => {
                       <p className="text-sm text-gray-400 mb-3">No comments yet.</p>
                     )}
 
-                    {/* Comment Form */}
                     <form
                       onSubmit={(e) => handleCommentSubmit(e, post._id)}
                       className="flex items-center gap-3"
@@ -127,7 +123,7 @@ const Feed = ({ posts }) => {
                       />
                       <button
                         type="submit"
-                        className="cursor-pointer text-white bg-[#840B36] px-4 py-2 rounded-md text-sm hover:bg-[#BA6C7D] transition"
+                        className="text-white bg-[#840B36] px-4 py-2 rounded-md text-sm hover:bg-[#BA6C7D] transition"
                       >
                         Post
                       </button>
@@ -135,22 +131,21 @@ const Feed = ({ posts }) => {
                   </>
                 )}
 
-                {/* Footer */}
                 <div className="mt-4 text-sm text-[#840B36] bg-[#FEE3EC] p-3 rounded-md font-medium border border-pink-100">
                   If you’ve seen this pet, please contact the owner immediately.
                 </div>
               </div>
 
-              {/* Right Section - Image */}
+              {/* Right Section - Pet Image */}
               <div className="w-full md:w-1/3 max-h-80 overflow-hidden">
-              {post.image && (
-                <img
-                  src={`data:${post.imageType};base64,${post.image}`}
-                  alt="Missing Pet"
-                  className="w-full h-80 object-cover rounded-r-2xl"
-                />
-              )}
-            </div>
+                {post.image && (
+                  <img
+                    src={post.image}
+                    alt="Missing Pet"
+                    className="w-full h-80 object-cover rounded-r-2xl"
+                  />
+                )}
+              </div>
             </div>
           ))
         ) : (

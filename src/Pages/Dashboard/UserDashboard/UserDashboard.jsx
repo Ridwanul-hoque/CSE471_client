@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Providers/AuthProviders';
-import { FaEdit, FaHistory, FaMedal, FaShoppingCart } from 'react-icons/fa';
+import { FaEdit, FaHistory, FaMedal, FaPrescription, FaShoppingCart } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 
 const UserDashboard = () => {
@@ -175,7 +176,7 @@ const UserDashboard = () => {
                                     </p>
                                 </div>
 
-                                <div className="bg-gray-50 p-4 rounded-lg md:col-span-2">
+                                <div className="bg-gray-50 p-4 rounded-lg ">
                                     <div className="flex items-center gap-2 mb-3">
                                         <FaHistory className="text-[#49312C]" />
                                         <h3 className="font-semibold">Care Center Bookings</h3>
@@ -186,6 +187,17 @@ const UserDashboard = () => {
                                             "You don't have any care center bookings"}
                                     </p>
                                 </div>
+                                <Link to={"/dashboard/prescriptions"} className="bg-gray-50 p-4 rounded-lg">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <FaPrescription className="text-[#49312C]" />
+                                        <h3 className="font-semibold">Prescription</h3>
+                                    </div>
+                                    <p className="text-gray-600">
+                                        {userData.bookings?.length ?
+                                            `You have ${userData.bookings.length} bookings` :
+                                            "You don't have any care center bookings"}
+                                    </p>
+                                </Link>
                             </div>
                         </div>
                     </div>

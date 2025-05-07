@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../Providers/AuthProviders';
 
 const PostAdoptionForm = ({ onSubmitSuccess }) => {
+  const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+  const { user } = useContext(AuthContext)
+
+
   const [formData, setFormData] = useState({
     ownerName: '',
     contact: '',
@@ -28,19 +34,43 @@ const PostAdoptionForm = ({ onSubmitSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const form = new FormData();
-    Object.entries(formData).forEach(([key, value]) => form.append(key, value));
-    imageFiles.forEach((file) => form.append('images', file)); // multiple images
-
     try {
+      // Upload images to imgbb
+      const uploadedImageUrls = [];
+
+      for (const image of imageFiles) {
+        const formData = new FormData();
+        formData.append('image', image);
+
+        const res = await fetch(image_hosting_api, {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          uploadedImageUrls.push(data.data.url);
+        } else {
+          throw new Error('Image upload failed');
+        }
+      }
+
+      // Add form fields + user email + image URLs
+      const submission = {
+        ...formData,
+        email: user.email, // ✅ add logged-in user's email
+        images: uploadedImageUrls, // ✅ imgbb URLs
+      };
+
       const response = await fetch('http://localhost:5000/api/adopt', {
         method: 'POST',
-        body: form,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submission),
       });
 
       if (response.ok) {
         setSuccess(true);
-        onSubmitSuccess?.(); // ✅ Trigger refresh
+        onSubmitSuccess?.();
         setTimeout(() => {
           setSuccess(false);
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -53,6 +83,7 @@ const PostAdoptionForm = ({ onSubmitSuccess }) => {
       console.error(error);
     }
   };
+
 
   return (
     <div className="max-w-xl mx-auto mt-1 mb-20 bg-[#] p-10 rounded shadow-lg">
