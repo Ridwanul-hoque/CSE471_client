@@ -1,7 +1,11 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../../Providers/AuthProviders';
 
 const UserRescuePost = () => {
+    const { user } = useContext(AuthContext)
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
     const [isChatOpen, setIsChatOpen] = useState(false);
 
     const toggleChat = () => setIsChatOpen(!isChatOpen);
@@ -29,25 +33,27 @@ const UserRescuePost = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        const formData = new FormData();
-        formData.append("details", petData.details);
-        formData.append("image", petData.image);
-
         try {
-            const response = await axios.post("http://localhost:5000/api/rescue-pet", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+            const formData = new FormData();
+            formData.append("image", petData.image);
+
+            // Step 1: Upload image to imgbb
+            const imgbbResponse = await axios.post(image_hosting_api, formData);
+            const imageUrl = imgbbResponse.data.data.url;
+
+            // Step 2: Send data to backend
+            const response = await axios.post("http://localhost:5000/api/rescue-pet", {
+                details: petData.details,
+                image: imageUrl,
+                userEmail: user.email,
+                userName: user.displayName,
+                userImage: user.photoURL
             });
 
-            // Add the new post to the existing posts
             setPosts((prevPosts) => [response.data.post, ...prevPosts]);
-
-            // Reset the form data
             setPetData({ details: "", image: null });
             setImagePreview(null);
             setIsSubmitting(false);
-
             alert("Post submitted!");
         } catch (error) {
             console.error("Error submitting post:", error);
@@ -81,7 +87,7 @@ const UserRescuePost = () => {
                             <div className="post-content px-6 py-3 ">
                                 <textarea
                                     name="details"
-                                    placeholder="Share details about the missing pet..."
+                                    placeholder="Mention Location and contact Information "
                                     value={petData.details}
                                     onChange={handleInputChange}
                                     className="post-textarea w-full p-4 border border-gray-300 rounded-md text-[#840B36]"

@@ -41,6 +41,9 @@ import VetProfiles from "../Pages/Medical/VetProfiles.jsx";
 import DoctorProfile from "../Pages/Medical/DoctorProfile.jsx";
 import Doctor from "../Pages/Dashboard/Doctor/Doctor.jsx";
 import DoctorQueue from "../Pages/Dashboard/DoctorQueue/DoctorQueue.jsx";
+import MissingPetsData from "../Pages/Dashboard/MissingPetsData/MissingPetsData.jsx";
+import RescuePetData from "../Pages/Dashboard/RescuePetData/RescuePetData.jsx";
+
 
 
 
@@ -131,18 +134,19 @@ export const router = createBrowserRouter([
                 element: <PrivateRoutes><UserRescuePost></UserRescuePost></PrivateRoutes>,
             },
             {
-                path: 'favourite',
-                element: ''
+                path: 'rescueData',
+                element: <PrivateRoutes><RescuePetData></RescuePetData></PrivateRoutes>,
+            },
+            
+            {
+                path: 'missingInfo',
+                element: <PrivateRoutes><MissingPetsData></MissingPetsData></PrivateRoutes>
             },
             {
                 path: 'adopted',
                 element: <PrivateRoutes><AdoptedPets></AdoptedPets></PrivateRoutes>,
             },
-            {
-                path: 'addreview',
-                element: '',
-
-            },
+            
             {
                 path: 'missingPets',
                 element: <PrivateRoutes><MissingPets></MissingPets></PrivateRoutes>

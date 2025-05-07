@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../../Providers/AuthProviders";
 
-const RescueFeed = ({ posts }) => {
+const RescueFeed = () => {
+  const [posts, setPosts] = useState([]);
   const [commentText, setCommentText] = useState({});
-  const [openComments, setOpenComments] = useState({}); // track which comment sections are open
+  const [openComments, setOpenComments] = useState({});
+  const {user} = useContext(AuthContext)
+
+  // Fetch posts on mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/rescue-posts");
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleCommentChange = (e, postId) => {
     setCommentText({ ...commentText, [postId]: e.target.value });
@@ -11,28 +28,27 @@ const RescueFeed = ({ posts }) => {
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
-
     const text = commentText[postId]?.trim();
     if (!text) return;
 
     try {
       await axios.post(`http://localhost:5000/api/rescue-posts/${postId}/comments`, {
-        userName: "User Name",
-        text: text,
+        userName: "User Name", // Replace with actual user data
+        text,
       });
 
       setCommentText({ ...commentText, [postId]: "" });
-      window.location.reload(); // reload to see new comment
+
+      // Refetch posts to update comments
+      const response = await axios.get("http://localhost:5000/api/rescue-posts");
+      setPosts(response.data);
     } catch (error) {
       console.error("Failed to post comment:", error);
     }
   };
 
   const toggleComments = (postId) => {
-    setOpenComments((prev) => ({
-      ...prev,
-      [postId]: !prev[postId],
-    }));
+    setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
 
   return (
@@ -53,17 +69,17 @@ const RescueFeed = ({ posts }) => {
 
       <div className="flex flex-col gap-10">
         {posts.length > 0 ? (
-          posts.map((post, index) => (
+          posts.map((post) => (
             <div
-              key={index}
+              key={post._id}
               className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden border border-[#f5d5dd]"
             >
-              {/* Left Section - User & Content */}
+              {/* Left Section */}
               <div className="w-full md:w-2/3 p-6 flex flex-col justify-between">
                 {/* User Info */}
                 <div className="flex items-center mb-4">
                   <img
-                    src={post.userImage || "https://via.placeholder.com/50"}
+                    src={post.photoURL}
                     alt="User"
                     className="rounded-full w-12 h-12 border-2 border-pink-300"
                   />
@@ -78,11 +94,11 @@ const RescueFeed = ({ posts }) => {
                 </div>
 
                 {/* Description */}
-                <p className="text-[#333] text-xl font-semibold  leading-relaxed mb-4">
+                <p className="text-[#333] text-xl font-semibold leading-relaxed mb-4">
                   {post.details}
                 </p>
 
-                {/* Toggle Comments Button */}
+                {/* Toggle Comments */}
                 <button
                   onClick={() => toggleComments(post._id)}
                   className="cursor-pointer self-start text-sm text-[#BA6C7D] font-medium underline hover:text-[#840B36] mb-3"
@@ -90,7 +106,7 @@ const RescueFeed = ({ posts }) => {
                   {openComments[post._id] ? "Hide Comments" : "View Comments"}
                 </button>
 
-                {/* Comments */}
+                {/* Comments Section */}
                 {openComments[post._id] && (
                   <>
                     {post.comments?.length > 0 ? (
@@ -99,7 +115,7 @@ const RescueFeed = ({ posts }) => {
                         {post.comments.map((comment, i) => (
                           <div key={i} className="text-sm text-gray-800 mb-2">
                             <span className="font-medium text-[#BA6C7D]">
-                              {comment.userName}:
+                              {user.displayName}:
                             </span>{" "}
                             {comment.text}
                             <p className="text-xs text-gray-400">
@@ -119,7 +135,7 @@ const RescueFeed = ({ posts }) => {
                     >
                       <input
                         type="text"
-                        placeholder="Write a comment..."
+                        placeholder="Identified the pet!! Provide the contact info"
                         value={commentText[post._id] || ""}
                         onChange={(e) => handleCommentChange(e, post._id)}
                         className="flex-1 px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#840B36]"
@@ -141,16 +157,16 @@ const RescueFeed = ({ posts }) => {
                 </div>
               </div>
 
-              {/* Right Section - Image */}
+              {/* Right Section - Pet Image */}
               <div className="w-full md:w-1/3 max-h-80 overflow-hidden">
-              {post.image && (
-                <img
-                  src={`data:${post.imageType};base64,${post.image}`}
-                  alt="Rescue Pet"
-                  className="w-full h-80 object-cover rounded-r-2xl"
-                />
-              )}
-            </div>
+                {post.image && (
+                  <img
+                    src={post.image}
+                    alt="Rescue Pet"
+                    className="w-full h-80 object-cover rounded-r-2xl"
+                  />
+                )}
+              </div>
             </div>
           ))
         ) : (

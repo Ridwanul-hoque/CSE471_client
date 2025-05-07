@@ -5,6 +5,7 @@ import RescueFeed from "../Rescue/RescueFeed"; // Import Feed component
 
 import SparkleEffect from "../Shared/SparklelEffect/SparkleEffect";
 import { Link } from "react-router-dom";
+import ChatBotButton from "../Component/ChatBot/ChatBotButton";
 
 const Rescue = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -99,9 +100,9 @@ const Rescue = () => {
         <RescueFeed posts={posts} /> {/* Pass posts as a prop to Feed */}
       </div>
 
-      {/* Chatbot
+      Chatbot
     <ChatBotButton toggleChat={toggleChat} />
-    {isChatOpen && <ChatWindow closeChat={toggleChat} />} */}
+    {isChatOpen && <ChatWindow closeChat={toggleChat} />}
     </div>
   );
 };

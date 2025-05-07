@@ -24,21 +24,25 @@ const RecentAdoptions = () => {
     fetchRecentPets();
   }, []);
 
+  const getImageUrl = (url) => {
+    return url.startsWith("http") ? url : `http://localhost:5000${url}`;
+  };
+
   if (recentPets.length === 0) return null;
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       <h2 className="text-3xl font-bold text-center text-[#840B36] mb-10">
-      <img 
-            src="src/assets/paw2.png" 
-            alt="Paw" 
-            className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
+        <img 
+          src="src/assets/paw2.png" 
+          alt="Paw" 
+          className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 mr-5"
         />
         Recently Added for Adoption
         <img 
-            src="src/assets/paw.png" 
-            alt="Paw" 
-            className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 ml-5"
+          src="src/assets/paw.png" 
+          alt="Paw" 
+          className="h-12 md:h-15 inline-block -mt-2 md:-mt-8 ml-5"
         />
       </h2>
 
@@ -52,20 +56,20 @@ const RecentAdoptions = () => {
             {pet.images?.length > 1 ? (
               <div className="flex h-60 w-full">
                 <img
-                  src={`http://localhost:5000${pet.images[0]}`}
+                  src={getImageUrl(pet.images[0])}
                   alt="Main"
                   className="h-full w-3/5 object-cover cursor-pointer"
-                  onClick={() => setZoomedImage(`http://localhost:5000${pet.images[0]}`)}
+                  onClick={() => setZoomedImage(getImageUrl(pet.images[0]))}
                 />
                 <div className="flex flex-col w-2/5 p-1 gap-1">
                   {pet.images.slice(1, 4).map((img, index, arr) => (
                     <img
                       key={index}
-                      src={`http://localhost:5000${img}`}
+                      src={getImageUrl(img)}
                       alt={`Side ${index}`}
                       className="w-full object-cover cursor-pointer rounded flex-1"
                       style={{ minHeight: `calc(100% / ${arr.length})` }}
-                      onClick={() => setZoomedImage(`http://localhost:5000${img}`)}
+                      onClick={() => setZoomedImage(getImageUrl(img))}
                     />
                   ))}
                 </div>
@@ -73,10 +77,10 @@ const RecentAdoptions = () => {
             ) : (
               <div className="h-60 w-full">
                 <img
-                  src={`http://localhost:5000${pet.images[0]}`}
+                  src={getImageUrl(pet.images[0])}
                   alt="Full"
                   className="h-full w-full object-cover cursor-pointer"
-                  onClick={() => setZoomedImage(`http://localhost:5000${pet.images[0]}`)}
+                  onClick={() => setZoomedImage(getImageUrl(pet.images[0]))}
                 />
               </div>
             )}
