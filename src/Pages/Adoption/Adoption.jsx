@@ -9,7 +9,6 @@ import PostAdoptionForm from '../PostAdoptionForm/PostAdoptionForm';
 import DecorativeWave from '../Component/Decoration/DecorativeWave';
 import AllAdoptions from '../AllAdoptions/AllAdoptions'
 import ChatBotButton from '../Component/ChatBot/ChatBotButton';
-
 import ChatWindow from '../Component/ChatBot/ChatWindow';
 
 const Adoption = () => {
