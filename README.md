@@ -1,6 +1,6 @@
 
 
-# 🐾 Pawkie - All About Pets 🐾
+# 🎀 Pawkie - All About Pets 🎀
 
 Pawkie is an online store dedicated to everything pets! Whether you're a dog lover, a cat parent, or a pet enthusiast of any kind, Pawkie is your one-stop shop for pet products, accessories, and essentials.
 
