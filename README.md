@@ -20,7 +20,7 @@ Pawkie is a web-based e-commerce platform that allows users to browse, search, a
 
 ---
 
-## 🚀 Features
+## Features
 
 * 🖼️ Product listing with images, descriptions, and prices
 * 🔎 Search and filter functionality
