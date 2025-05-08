@@ -26,7 +26,6 @@ const AdminDashboard = () => {
     usersCount: 0,
     adoptedPetsCount: 0,
     productsCount: 0,
-    rescuePetsCount: 0,
     missingPetsCount: 0,
   });
 
@@ -34,24 +33,18 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const [
-          adoptionRes,
-          missingRes,
+          adoptedPetsRes,
+          missingPetsRes,
           reviewsRes,
           doctorsRes,
-          adoptedPetsRes,
           productsRes,
-          rescuePetsRes,
-          missingPetsRes,
-          usersRes
+          usersRes,
         ] = await Promise.all([
           axios.get("https://pawkie-server.vercel.app/api/adoptedPets"),
           axios.get("https://pawkie-server.vercel.app/api/missing-pet"),
           axios.get("https://pawkie-server.vercel.app/reviews"),
           axios.get("https://pawkie-server.vercel.app/doctors"),
-          axios.get("https://pawkie-server.vercel.app/api/adoptedPets"),
           axios.get("https://pawkie-server.vercel.app/api/products"),
-          axios.get("https://pawkie-server.vercel.app/api/rescue-pet"),
-          axios.get("https://pawkie-server.vercel.app/api/missing-pet"),
           axios.get("https://pawkie-server.vercel.app/users"),
         ]);
 
@@ -59,17 +52,22 @@ const AdminDashboard = () => {
         const doctorsCount = usersData.filter(user => user.role === "doctor").length;
         const usersCount = usersData.filter(user => !user.role || user.role === "user").length;
 
+        const postsOverTime = [
+          { date: "Jan", adoptions: 5, missing: 2 },
+          { date: "Feb", adoptions: 8, missing: 4 },
+          { date: "Mar", adoptions: 12, missing: 3 },
+        ];
+
         setStats({
-          totalAdoptions: adoptionRes.data.length,
-          totalMissing: missingRes.data.length,
+          totalAdoptions: adoptedPetsRes.data.length,
+          totalMissing: missingPetsRes.data.length,
           reviewsCount: reviewsRes.data.length,
           doctorsCount,
           usersCount,
           adoptedPetsCount: adoptedPetsRes.data.length,
           productsCount: productsRes.data.length,
-          rescuePetsCount: rescuePetsRes.data.length,
           missingPetsCount: missingPetsRes.data.length,
-          postsOverTime: [], // Still placeholder
+          postsOverTime,
         });
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -95,7 +93,6 @@ const AdminDashboard = () => {
         <StatBox label="Users" count={stats.usersCount} color="#5F040D" />
         <StatBox label="Adopted Pets" count={stats.adoptedPetsCount} color="#FFE8DA" textColor="#5F040D" />
         <StatBox label="Products" count={stats.productsCount} color="#FFD6BE" textColor="#5F040D" />
-        <StatBox label="Rescue Pets" count={stats.rescuePetsCount} color="#5F040D" />
         <StatBox label="Missing Pets" count={stats.missingPetsCount} color="#9C3346" />
       </div>
 
@@ -104,41 +101,49 @@ const AdminDashboard = () => {
         {/* Pie Chart */}
         <div className="bg-white rounded-2xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Post Distribution</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                outerRadius={100}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          {pieData.every(item => item.value > 0) ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="text-center text-gray-500">No data available for pie chart.</p>
+          )}
         </div>
 
         {/* Bar Chart */}
         <div className="bg-white rounded-2xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Posts Over Time</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={stats.postsOverTime}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="adoptions" fill="#FF6384" name="Adoptions" />
-              <Bar dataKey="missing" fill="#36A2EB" name="Missing" />
-            </BarChart>
-          </ResponsiveContainer>
+          {stats.postsOverTime.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={stats.postsOverTime}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="adoptions" fill="#FF6384" name="Adoptions" />
+                <Bar dataKey="missing" fill="#36A2EB" name="Missing" />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="text-center text-gray-500">No data available for bar chart.</p>
+          )}
         </div>
       </div>
     </div>
