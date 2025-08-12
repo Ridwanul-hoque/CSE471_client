@@ -127,7 +127,7 @@ export const BookAppointment = () => {
                 return;
               }
 
-              // Fetch links and find one that matches the user's _id
+              //Fetch links and find one that matches the user's _id
               const linkRes = await fetch("https://pawkie-server.vercel.app/api/links");
               const links = await linkRes.json();
               const userLink = links.find(link => link.userId === matchedUser._id);
@@ -141,10 +141,10 @@ export const BookAppointment = () => {
                 return;
               }
 
-              // Open the link in a new tab
+              //Open the link in a new tab
               window.open(userLink.link, "_blank");
 
-              // Update IPO status in the backend
+              //Update IPO status in the backend
               await fetch(`https://pawkie-server.vercel.app/users/IPO`, {
                 method: 'PATCH',
                 headers: {

@@ -24,8 +24,12 @@ const VideoCall = () => {
 
     const checkStatus = async () => {
       try {
-        // First, get current user data to get userId
+        // Get current user data to get userId
         const userResponse = await fetch(`https://pawkie-server.vercel.app/users/${user.email}`);
+        if (!userResponse.ok) {
+          setError('Failed to load user data');
+          return;
+        }
         const userData = await userResponse.json();
 
         if (!userData._id) {
@@ -33,31 +37,53 @@ const VideoCall = () => {
           return;
         }
 
-        // Get queue status (assuming we need to pass doctorEmail - you might need to adjust this)
-        // For now, we'll get all queue items for this user and find the latest one
+        // Get ALL queue items and find the most recent one for this user
         const queueResponse = await fetch('https://pawkie-server.vercel.app/api/queue');
+        if (!queueResponse.ok) {
+          setError('Failed to check queue status');
+          return;
+        }
         const queueData = await queueResponse.json();
         
-        const userQueueItem = queueData.find(item => item.userId === userData._id);
+        // Find the latest queue item for this user (in case of multiple bookings)
+        const userQueueItems = queueData.filter(item => item.userId === userData._id);
         
-        if (userQueueItem) {
-          setQueueStatus(userQueueItem);
-
-          // If accepted, check for meeting link
-          if (userQueueItem.status === 'accepted') {
-            const linksResponse = await fetch(`https://pawkie-server.vercel.app/api/links?userId=${userData._id}&doctorEmail=${userQueueItem.doctorEmail}`);
-            const linksData = await linksResponse.json();
-            
-            if (linksData.length > 0) {
-              // Get the most recent link
-              const latestLink = linksData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
-              setMeetingLink(latestLink.link);
-            }
-          }
+        if (userQueueItems.length === 0) {
+          setError('No appointment found. Please book an appointment first.');
+          return;
         }
+
+        // Get the most recent queue item
+        const latestQueueItem = userQueueItems.sort((a, b) => 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        )[0];
+        
+        setQueueStatus(latestQueueItem);
+
+        // Only check for meeting link if patient is accepted
+        if (latestQueueItem.status === 'accepted') {
+          try {
+            const linksResponse = await fetch(`https://pawkie-server.vercel.app/api/links?userId=${userData._id}&doctorEmail=${latestQueueItem.doctorEmail}`);
+            if (linksResponse.ok) {
+              const linksData = await linksResponse.json();
+              
+              if (linksData.length > 0) {
+                // Get the most recent link
+                const latestLink = linksData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+                setMeetingLink(latestLink.link);
+              }
+            }
+          } catch (linkError) {
+            console.log('No meeting link available yet');
+          }
+        } else {
+          // Clear meeting link if not accepted
+          setMeetingLink(null);
+        }
+
       } catch (err) {
         console.error('Error checking status:', err);
-        setError('Failed to check status');
+        setError('Failed to check appointment status');
       } finally {
         setLoading(false);
       }
@@ -76,21 +102,21 @@ const VideoCall = () => {
   };
 
   const getStatusMessage = () => {
-    if (loading) return "Loading...";
+    if (loading) return "Loading your appointment status...";
     if (error) return error;
-    if (!queueStatus) return "You are not in any queue currently.";
+    if (!queueStatus) return "No active appointment found. Please book an appointment.";
     
     switch (queueStatus.status) {
       case 'waiting':
-        return "Please wait... Doctor will accept your request soon";
+        return "Please wait... Doctor will review your request soon";
       case 'accepted':
         return meetingLink 
-          ? "You are accepted to join! Please click here to join the call" 
-          : "You are accepted! Waiting for meeting link...";
+          ? "🎉 Your appointment is accepted! Please click below to join the call" 
+          : "✅ You are accepted! Waiting for doctor to share the meeting link...";
       case 'removed':
-        return "You are removed from the call list due to violation of user policy.";
+        return "❌ You have been removed from the call list due to violation of user policy.";
       default:
-        return "Unknown status";
+        return `Appointment status: ${queueStatus.status}`;
     }
   };
 
@@ -173,12 +199,17 @@ const VideoCall = () => {
 
         {/* Action Button */}
         {queueStatus?.status === 'accepted' && meetingLink && (
-          <button
-            onClick={handleJoinCall}
-            className="bg-[#5F040D] hover:bg-[#9C3346] text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-          >
-            🎥 Join Video Call
-          </button>
+          <div className="text-center">
+            <p className="text-[#5F040D] mb-4 font-semibold">
+              🎊 Great news! Your appointment is confirmed!
+            </p>
+            <button
+              onClick={handleJoinCall}
+              className="bg-[#5F040D] hover:bg-[#9C3346] text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl animate-pulse"
+            >
+              🎥 Click Here to Join Video Call
+            </button>
+          </div>
         )}
 
         {/* Loading Animation */}

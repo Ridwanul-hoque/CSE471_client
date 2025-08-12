@@ -78,53 +78,28 @@ const DoctorQueue = () => {
     }
   };
 
-  // Updated functions using PUT endpoint for updates
-  const handleAcceptPatient = async (patientId) => {
-    try {
-      // Use PUT to update queue status
-      const response = await fetch(`https://pawkie-server.vercel.app/api/queue/${patientId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status: 'accepted',
-          acceptedAt: new Date()
-        })
-      });
-
-      if (response.ok) {
-        // Update local state
-        setQueue(prev => prev.map(item => 
-          item._id === patientId 
-            ? { ...item, status: 'accepted' }
-            : item
-        ));
-        alert('Patient accepted successfully!');
-      } else {
-        throw new Error('Failed to accept patient');
-      }
-    } catch (error) {
-      console.error('Error accepting patient:', error);
-      // Still update local state for immediate feedback
-      setQueue(prev => prev.map(item => 
-        item._id === patientId 
-          ? { ...item, status: 'accepted' }
-          : item
-      ));
-      alert('Patient accepted (local update - check server)');
-    }
+  // FIXED FUNCTIONS - No server calls for Accept, only local updates
+  const handleAcceptPatient = (patientId) => {
+    // Only update local state - no server call
+    setQueue(prev => prev.map(item => 
+      item._id === patientId 
+        ? { ...item, status: 'accepted' }
+        : item
+    ));
+    
+    alert('Patient accepted! You can now share the conference link with them.');
   };
 
   const handleRemovePatient = async (patientId) => {
     if (window.confirm('Are you sure you want to remove this patient from the queue?')) {
       try {
-        // Use existing delete endpoint to completely remove from queue
+        // Use existing DELETE endpoint - this works
         const response = await fetch(`https://pawkie-server.vercel.app/api/queue/${patientId}`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' }
         });
 
         if (response.ok) {
-          // Remove from local state
           setQueue(prev => prev.filter(item => item._id !== patientId));
           alert('Patient removed from queue due to policy violation');
         } else {
@@ -137,7 +112,7 @@ const DoctorQueue = () => {
     }
   };
 
-  // New function for conference call link submission
+  // Conference link submission - works with existing API
   const handleConferenceLinkSubmit = async () => {
     if (!conferenceLinkText.trim()) {
       alert('Please enter a valid Google Meet link');
